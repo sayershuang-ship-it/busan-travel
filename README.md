@@ -1,107 +1,75 @@
 # Kumamoto Travel Guide
 
-Interactive travel itinerary and planning website for Kumamoto, Japan built with Astro.
+Interactive travel-planning site for a 熊本四天三夜自由行 (Kumamoto, Japan — 4 days / 3 nights), built with Astro and deployed as a static site to Cloudflare Pages.
 
-## 🗾 About
+Trip data (dates, budget, daily activities, locations) lives in one file — `src/data/itinerary.js` — and drives every page.
 
-A comprehensive travel guide and itinerary planner for Kumamoto prefecture featuring:
-- Daily itinerary planning
-- Interactive maps and attractions
-- Local recommendations
-- Travel logistics and booking information
+## Pages
 
-## 🛠️ Tech Stack
+- `/` — trip overview: dates, budget summary, day list
+- `/day1` – `/day4` — daily itinerary detail (shared `Day.astro` layout)
+- `/map` — all locations + daily routes on Google Maps (Directions API)
+- `/planner` — drag-to-reorder itinerary editor with live budget recalculation
+- `/planb` — contingency plans (rain/heat/delay alternates) for activities that have one
+- `/expenses` — expense tracker with CSV export
+- `/tickets` — pre-trip booking checklist (persisted in browser storage)
+- `/weather` — live forecast via Open-Meteo
+- `/calendar` — export itinerary to Google/Apple Calendar (.ics)
+- `/import` — paste booking confirmation emails to auto-parse flights/hotels/tickets
+- `/new` — wizard to start a new trip (destination, dates, day count)
 
-- **Framework**: Astro
-- **Styling**: CSS/Tailwind
-- **Content**: Markdown-based itineraries
-- **Deployment**: Cloudflare Pages
+The site also ships a service worker (`public/sw.js`) and web app manifest for basic PWA/offline support.
 
-## 📦 Installation
+## Tech Stack
 
-### Prerequisites
-- Node.js 16+ and npm/pnpm
+- **Framework**: Astro 5 (static output)
+- **Styling**: plain CSS (`src/styles/global.css`)
+- **Data**: single JS module (`src/data/itinerary.js`), no CMS/database
+- **Maps**: Google Maps JavaScript API + Directions API (`PUBLIC_GOOGLE_MAPS_API_KEY`)
+- **Weather**: Open-Meteo (no key required)
+- **Deployment**: Cloudflare Pages via GitHub Actions (`.github/workflows/deploy.yml`)
 
-### Setup
+## Setup
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-```
-
-## 📂 Project Structure
-
-```
-kumamoto-travel/
-├── src/
-│   ├── components/    # Astro components
-│   ├── layouts/       # Page layouts
-│   ├── pages/         # Route pages
-│   └── styles/        # Global styles
-├── public/            # Static assets
-└── astro.config.mjs   # Astro configuration
-```
-
-## 🌐 Features
-
-- Interactive daily itineraries
-- Map integration with attractions
-- Weather information
-- Restaurant and hotel recommendations
-- Transportation guides
-- Mobile-responsive design
-
-## 🚀 Deployment
-
-### Cloudflare Pages
-
-```bash
-# Build the project
-npm run build
-
-# Deploy (configured in .github/workflows)
-# or manually through Cloudflare dashboard
+npm run dev       # http://localhost:4321
+npm run build     # outputs to dist/
+npm run preview
 ```
 
 ### Environment Variables
 
-Create `.env` with:
+Create `.env` locally:
+
 ```
-VITE_API_ENDPOINT=your_api_endpoint
-VITE_MAP_API_KEY=your_map_api_key
+PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 ```
 
-## 📝 Content
+This is the only variable actually read by the code (`astro.config.mjs`, `src/pages/map.astro`). `.env.example` lists additional variables that are aspirational/unused — treat it as a rough template, not a contract.
 
-Travel information is stored in markdown files and can be edited directly.
+## Deployment
 
-## 🔐 Security
+Every push to `main` triggers `.github/workflows/deploy.yml`:
+`npm install` → `astro build` (with `PUBLIC_GOOGLE_MAPS_API_KEY` injected) → `wrangler pages deploy dist`.
 
-- Keep `.env` local, never commit
-- API keys stored in environment variables
-- Use `.gitignore` for sensitive files
+Live site: https://kumamoto-travel.pages.dev
 
-## 📚 Documentation
+Cloudflare/CI setup notes and past gotchas are recorded in `HANDOFF.md`.
 
-- [Astro Docs](https://docs.astro.build)
-- [Cloudflare Pages](https://pages.cloudflare.com)
+## Repo Layout
 
-## 🆘 Troubleshooting
+```
+src/
+├── data/itinerary.js   # all trip content (single source of truth)
+├── layouts/            # Base.astro, Day.astro
+├── pages/               # one file per route (see Pages above)
+└── styles/global.css
+public/                  # static assets, manifest, service worker
+docs/                    # design notes and past planning docs
+.agent/                  # portable agent memory/skills layer (agentic-stack)
+```
 
-- Clear `.astro` cache: `rm -rf .astro`
-- Reinstall dependencies: `rm -rf node_modules && npm install`
-- Check Node version: `node --version`
+## Agent Tooling
 
-## 📞 Support
-
-For issues and feature requests, check the GitHub issues.
-
----
-
-*Last Updated: 2026-06-22*
+This repo includes an `.agent/` directory (agentic-stack portable memory/skills layer) and `AGENTS.md`/`.claude/` config for AI coding assistants. Not required to run or deploy the site.
