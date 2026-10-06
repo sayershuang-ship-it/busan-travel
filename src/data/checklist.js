@@ -47,11 +47,11 @@ export const checklist = [
     title: '隨身行李',
     items: [
       { id: 'c-passport', text: '護照、信用卡、現金', note: '' },
-      { id: 'c-powerbank', text: '行動電源', note: '只能放隨身，不能託運' },
+      { id: 'c-powerbank', text: '行動電源（標示 Wh、100Wh 以下）', note: '韓國航空規定：隨身攜帶、放視線可及處、不可放行李架上、不可用座位 USB 充電；沒標 Wh 可能被沒收，端口貼膠帶' },
       { id: 'c-adapter', text: '轉接頭與充電線', note: '韓國是 220V 圓兩孔插座；台灣 110V 電器要確認支援雙電壓' },
-      { id: 'c-jacket', text: '薄外套與可疊穿衣物', note: '早晚約 12°C、白天約 18°C' },
+      { id: 'c-jacket', text: '薄外套與可疊穿衣物', note: '早晚約 8–12°C、白天約 17–20°C，海邊風大；11 月初偏冷，帶針織與風衣' },
       { id: 'c-shoes', text: '好走的鞋', note: '南浦洞與西面步行多，坡路也多' },
-      { id: 'c-liquid', text: '隨身液體每瓶 100ml 以下、裝進透明夾鏈袋', note: '回程買的保養品請放託運' },
+      { id: 'c-liquid', text: '隨身液體每瓶 100ml 以下、裝進 1 公升內的透明夾鏈袋', note: '回程買的保養品請放託運；機上手提加個人物品合計 10kg 內' },
     ],
   },
   {
@@ -60,7 +60,7 @@ export const checklist = [
     items: [
       { id: 's-bag', text: '折疊大購物袋 2 個', note: '好市多不提供塑膠袋' },
       { id: 's-space', text: '行李箱出發時留一半空間', note: '回程總額度 20kg，先抓好保養品與零食的重量' },
-      { id: 's-passport', text: '退稅用：護照與購物收據', note: '單筆滿 ₩30,000 通常可現場退稅；確認各店櫃台規定' },
+      { id: 's-passport', text: '退稅用：護照與購物收據', note: '單筆滿 ₩15,000 可退稅，結帳出示護照正本，請店家辦「即時退稅」（單筆上限 ₩1,000,000）。辦了即時退稅，商品可直接託運' },
       { id: 's-list', text: '家人委託的清單先整理好', note: '保養品牌、色號、容量，現場才不用再問' },
       { id: 's-cool', text: '保冷袋（要帶魚板、泡菜時用）', note: '' },
     ],

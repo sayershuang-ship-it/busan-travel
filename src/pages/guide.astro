@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { guide, places } from '../data/guide';
+const map = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+---
+
+<Base title="出發功課">
+  <PageHero title="出發功課" subtitle="退稅、帝王蟹、湯飯、保養品、機場與緊急聯絡，查證後整理" />
+
+  <main class="container" style="padding-top:1.25rem;">
+    <div class="note">
+      <strong>價格與規定會變</strong>
+      以下來自 2026 年的遊記與官方頁面，標「約」的數字請現場確認。
+    </div>
+
+    {guide.map(g => (
+      <details class="card guide-card" open={g.id === 'taxrefund' ? true : undefined}>
+        <summary><h2>{g.title}</h2></summary>
+        <ul class="guide-list">
+          {g.points.map(t => <li>{t}</li>)}
+        </ul>
+      </details>
+    ))}
+
+    <section class="card">
+      <h2>店家資訊</h2>
+      <table class="budget-table">
+        <thead><tr><th>店家</th><th>營業時間</th></tr></thead>
+        <tbody>
+          {places.map(p => (
+            <tr>
+              <td>
+                <a href={map(p.name + ' ' + p.address)} target="_blank" rel="noopener"><strong>{p.name}</strong></a>
+                <div style="font-size:0.8rem;color:var(--muted);">{p.area}・{p.address}</div>
+                <div style="font-size:0.8rem;color:var(--muted);">{p.note}</div>
+              </td>
+              <td style="font-size:0.85rem;">{p.hours}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="footer"><a href="/">回總覽</a></footer>
+</Base>
+
+<style is:global>
+  .guide-card { padding: 0; }
+  .guide-card summary { padding: 1rem 1.25rem; cursor: pointer; list-style: none; }
+  .guide-card summary::-webkit-details-marker { display: none; }
+  .guide-card summary h2 { display: inline; }
+  .guide-card summary::after { content: '展開'; float: right; font-size: 0.8rem; color: var(--muted); }
+  .guide-card[open] summary::after { content: '收合'; }
+  .guide-list { padding: 0 1.25rem 1rem 2.25rem; }
+  .guide-list li { margin-bottom: 0.6rem; max-width: 62ch; }
+</style>

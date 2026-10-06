@@ -1,18 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { trip } from '../data/itinerary';
 const locationsJson = JSON.stringify(trip.locations);
 const routesJson = JSON.stringify(trip.dailyRoutes);
 const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
 ---
 
-<Base title="景點地圖 | 釜山旅行">
+<Base title="景點地圖">
 
-  <header class="hero" style="padding:2rem 1rem;">
-    <a href="/" style="color:white;opacity:0.7;text-decoration:none;font-size:0.85rem;">← 回總覽</a>
-    <h1 style="margin-top:0.5rem;">🗺️ 釜山全境地圖</h1>
-    <p class="subtitle">OpenStreetMap · 全景點標記 + 每日路線</p>
-  </header>
+  <PageHero title="釜山全境地圖" subtitle="OpenStreetMap · 全景點標記 + 每日路線" />
 
 
   <main class="container" style="padding-top:1.5rem;">
@@ -105,7 +102,7 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
 
   window.initMap = function initMap() {
     const map = new google.maps.Map(document.getElementById('leaflet-map'), {
-      center: { lat: 32.8031, lng: 130.7079 },
+      center: { lat: 35.13, lng: 129.07 },
       zoom: 13,
     });
 

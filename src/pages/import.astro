@@ -1,14 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { trip } from '../data/itinerary';
 const tripJson = JSON.stringify(trip);
 ---
 
 <Base title="資料匯入・訂單彙整">
-  <header class="hero" style="padding:2rem 1rem;">
-    <h1>📥 資料匯入・訂單彙整</h1>
-    <p class="subtitle">貼上確認信自動解析，機票飯店門票一站管理</p>
-  </header>
+  <PageHero title="資料匯入・訂單彙整" subtitle="貼上確認信自動解析，機票飯店門票一站管理" />
 
 
   <main class="container" style="padding-top:1.5rem;">
@@ -28,7 +26,7 @@ const tripJson = JSON.stringify(trip);
       <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">
         把航空公司/訂房網的確認信全文貼進來，自動抽出航班號、日期時間、訂位代號（解析結果可再修改）。
       </p>
-      <textarea class="paste-box" id="paste-input" placeholder="例：您的訂位已確認&#10;航班 BR106  2026/07/17 08:50 台北(TPE) → 熊本(KMJ)&#10;訂位代號：ABC12D"></textarea>
+      <textarea class="paste-box" id="paste-input" placeholder="例：您的訂位已確認&#10;航班 7C6164  2026/10/31 02:50 台北(TPE) → 釜山(PUS)&#10;訂位代號：ABC12D"></textarea>
       <div class="toolbar" style="margin-top:0.75rem;margin-bottom:0;">
         <button class="btn" id="parse-btn">🔍 解析內容</button>
         <button class="btn secondary" id="clear-btn">清空</button>
@@ -51,7 +49,7 @@ const tripJson = JSON.stringify(trip);
               <option value="other">📌 其他</option>
             </select>
           </div>
-          <div class="form-row"><label>名稱</label><input name="title" required maxlength="60" placeholder="航班 BR106 / 東橫INN熊本駅前" /></div>
+          <div class="form-row"><label>名稱</label><input name="title" required maxlength="60" placeholder="航班 7C6164 / Almond Hotel 釜山站" /></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
           <div class="form-row"><label>日期</label><input name="date" type="date" /></div>
@@ -225,7 +223,7 @@ const tripJson = JSON.stringify(trip);
       const banner = document.getElementById('share-banner');
       const count = shared.days.reduce((s, d) => s + (d.activities?.length || 0), 0);
       document.getElementById('share-summary').textContent =
-        `${shared.days.length} 天 · ${count} 個活動 · 合計 ¥${T.planTotal(shared.days).toLocaleString()}`;
+        `${shared.days.length} 天 · ${count} 個活動 · 合計 ₩${T.planTotal(shared.days).toLocaleString()}`;
       banner.style.display = 'block';
       document.getElementById('share-apply').addEventListener('click', () => {
         T.savePlan(shared.days);

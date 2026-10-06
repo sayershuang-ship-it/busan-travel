@@ -1,14 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { trip } from '../data/itinerary';
 ---
 
-<Base title="天氣預報 | 熊本旅行">
-  <header class="hero" style="padding:2rem 1rem;">
-    <a href="/" style="color:white;opacity:0.7;text-decoration:none;font-size:0.85rem;">← 回總覽</a>
-    <h1 style="margin-top:0.5rem;">🌤️ 天氣預報</h1>
-    <p class="subtitle">熊本 · {trip.dates} · Open-Meteo 即時資料</p>
-  </header>
+<Base title="天氣預報">
+  <PageHero title="天氣預報" subtitle={`釜山 · ${trip.dates} · Open-Meteo 即時資料`} />
 
 
   <main class="container" style="padding-top:1.5rem;">
@@ -17,10 +14,20 @@ import { trip } from '../data/itinerary';
     <div class="weather-banner">
       <div class="icon">☀️</div>
       <div>
-        <strong>熊本七月氣候</strong><br />
+        <strong>釜山十月底氣候</strong><br />
         {trip.weather.condition}・{trip.weather.temp}<br />
         <span style="font-size:0.85rem;opacity:0.9;">打包建議：{trip.weather.tip}</span>
       </div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-bottom:0.5rem;">十月底到十一月初怎麼穿</h2>
+      <ul style="padding-left:1.25rem;font-size:0.9rem;">
+        <li>氣溫約 8–20°C（由 10 月與 11 月月均值推估）：中午偏暖、早晚涼，海邊風大體感更冷。</li>
+        <li>10 月平均降水約 62mm、約 5 天；11 月約 40mm。整體偏乾，仍要帶折疊傘。</li>
+        <li>長袖加薄針織，外面套風衣或薄外套；11 月初可加圍巾。真正冷是 11 月底。</li>
+        <li>出發前一週再看 Naver 或下方即時預報（預報只涵蓋未來約 16 天）。</li>
+      </ul>
     </div>
 
     <!-- Loading state -->
@@ -50,7 +57,7 @@ import { trip } from '../data/itinerary';
     <div id="weather-error" style="display:none;" class="card">
       <p style="color:var(--text-muted);text-align:center;">
         ⚠️ 無法取得即時天氣資料（可能為旅行日期超出預報範圍）<br/>
-        <strong>熊本七月氣候參考：</strong>{trip.weather.condition}<br/>
+        <strong>釜山十月底氣候參考：</strong>{trip.weather.condition}<br/>
         {trip.weather.tip}
       </p>
     </div>
@@ -60,14 +67,14 @@ import { trip } from '../data/itinerary';
       <h2 style="margin-bottom:1rem;">🧳 打包建議</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.5rem;">
         {[
-          { icon: '☂️', item: '折疊傘', reason: '午後雷陣雨' },
-          { icon: '🕶️', item: '太陽眼鏡', reason: '日照強烈' },
-          { icon: '🧴', item: '防曬乳 SPF50+', reason: '七月紫外線強' },
-          { icon: '👟', item: '舒適走路鞋', reason: '每日步行 5-10km' },
-          { icon: '👕', item: '輕薄透氣衣', reason: '高溫高濕' },
-          { icon: '💊', item: '暑熱藥品', reason: '防中暑' },
-          { icon: '🧴', item: '止汗噴霧', reason: '日本必備' },
-          { icon: '👙', item: '泳衣 / 溫泉毛巾', reason: '三處溫泉' },
+          { icon: '🧥', item: '薄外套', reason: '早晚約 12°C，海邊風大' },
+          { icon: '👕', item: '洋蔥式穿搭', reason: '白天約 18°C，日夜溫差大' },
+          { icon: '☂️', item: '折疊傘', reason: '十一月初偶有陣雨' },
+          { icon: '👟', item: '舒適走路鞋', reason: '南浦洞與西面坡路多' },
+          { icon: '🧴', item: '保濕乳液、護唇膏', reason: '秋季乾燥，飛機上也乾' },
+          { icon: '🔌', item: '轉接頭', reason: '韓國是 220V 圓兩孔' },
+          { icon: '🛍️', item: '折疊購物袋', reason: '好市多不提供袋子' },
+          { icon: '💳', item: 'Visa 卡與韓元現金', reason: '好市多與小攤使用' },
         ].map(p => (
           <div style="background:var(--bg);border-radius:0.75rem;padding:0.75rem;font-size:0.85rem;">
             <div style="font-size:1.5rem;">{p.icon}</div>
@@ -105,11 +112,11 @@ import { trip } from '../data/itinerary';
 </style>
 
 <script>
-  const LAT = 32.8031;
-  const LNG = 130.7079;
-  const DATES = ['2026-07-17', '2026-07-18', '2026-07-19', '2026-07-20'];
-  const DAY_NAMES = ['Day 1 · 7/17', 'Day 2 · 7/18', 'Day 3 · 7/19', 'Day 4 · 7/20'];
-  const DAY_TITLES = ['抵達・市區漫步', '文化・庭園', '自由悠閒日', '返程'];
+  const LAT = 35.1796;
+  const LNG = 129.0756;
+  const DATES = ['2026-10-31', '2026-11-01', '2026-11-02'];
+  const DAY_NAMES = ['Day 1 · 10/31', 'Day 2 · 11/1', 'Day 3 · 11/2'];
+  const DAY_TITLES = ['抵達・好市多・帝王蟹', '廣安里與海雲台', '西面補貨・返台'];
 
   function wmoToEmoji(code) {
     if (code === 0) return '☀️';
@@ -138,7 +145,7 @@ import { trip } from '../data/itinerary';
   async function fetchWeather() {
     const start = DATES[0];
     const end = DATES[DATES.length - 1];
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,weathercode,windspeed_10m_max&hourly=temperature_2m,precipitation_probability&timezone=Asia%2FTokyo&start_date=${start}&end_date=${end}`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LNG}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,weathercode,windspeed_10m_max&hourly=temperature_2m,precipitation_probability&timezone=Asia%2FSeoul&start_date=${start}&end_date=${end}`;
 
     const res = await fetch(url);
     if (!res.ok) throw new Error('API error');
@@ -252,7 +259,7 @@ import { trip } from '../data/itinerary';
 
     // Temp line
     ctx.beginPath();
-    ctx.strokeStyle = '#d4342c';
+    ctx.strokeStyle = '#1e7b76';
     ctx.lineWidth = 2.5;
     temps.forEach((t, i) => {
       const x = pad.left + (i / (indices.length - 1)) * w;
@@ -262,7 +269,7 @@ import { trip } from '../data/itinerary';
     ctx.stroke();
 
     // Dots + labels
-    ctx.fillStyle = '#d4342c';
+    ctx.fillStyle = '#1e7b76';
     ctx.font = '10px sans-serif';
     ctx.textAlign = 'center';
     temps.forEach((t, i) => {
@@ -274,7 +281,7 @@ import { trip } from '../data/itinerary';
       if (i % 2 === 0) {
         ctx.fillStyle = '#374151';
         ctx.fillText(t.toFixed(0) + '°', x, y - 8);
-        ctx.fillStyle = '#d4342c';
+        ctx.fillStyle = '#1e7b76';
       }
     });
 

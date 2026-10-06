@@ -1,6 +1,6 @@
-# Kumamoto Travel Guide
+# Busan Travel Guide
 
-Interactive travel-planning site for a 熊本四天三夜自由行 (Kumamoto, Japan — 4 days / 3 nights), built with Astro and deployed as a static site to Cloudflare Pages.
+Interactive travel-planning site for a 釜山三日自由行 (Busan, Korea — 3 days, 2026/10/31–11/2), built with Astro and deployed as a static site to Cloudflare Pages.
 
 Trip data (dates, budget, daily activities, locations) lives in one file — `src/data/itinerary.js` — and drives every page.
 
@@ -53,7 +53,7 @@ This is the only variable actually read by the code (`astro.config.mjs`, `src/pa
 Every push to `main` triggers `.github/workflows/deploy.yml`:
 `npm install` → `astro build` (with `PUBLIC_GOOGLE_MAPS_API_KEY` injected) → `wrangler pages deploy dist`.
 
-Live site: https://kumamoto-travel.pages.dev
+Live site: https://busan-travel.pages.dev
 
 Cloudflare/CI setup notes and past gotchas are recorded in `HANDOFF.md`.
 

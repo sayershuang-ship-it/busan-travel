@@ -1,8 +1,8 @@
 /* TripTools — 共用前端資料層：計畫覆寫、訂單彙整、ICS 匯出、分享連結 */
 (function () {
-  const PLAN_KEY = 'kumamoto-plan-v1';
-  const BOOKINGS_KEY = 'kumamoto-bookings-v1';
-  const META_KEY = 'kumamoto-tripmeta-v1';
+  const PLAN_KEY = 'busan-plan-v1';
+  const BOOKINGS_KEY = 'busan-bookings-v1';
+  const META_KEY = 'busan-tripmeta-v1';
 
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
@@ -41,12 +41,12 @@
 
   /* ---------- 旅程設定覆寫（Trip meta overlay） ---------- */
 
-  // 回傳有效的旅程設定：預設用內建範本（熊本），開過新旅程則用使用者設定
+  // 回傳有效的旅程設定：預設用內建範本（釜山），開過新旅程則用使用者設定
   function loadMeta(baseTrip) {
     const base = {
       title: baseTrip.title, subtitle: baseTrip.subtitle, dates: baseTrip.dates,
-      travelers: baseTrip.travelers, budget: baseTrip.budget,
-      startDate: baseTrip.startDate, timezone: baseTrip.timezone || 'Asia/Tokyo',
+      travelers: baseTrip.travelers, budget: baseTrip.budget * (baseTrip.krwPerTwd || 1),
+      startDate: baseTrip.startDate, timezone: baseTrip.timezone || 'Asia/Seoul',
       custom: false,
     };
     try {
@@ -88,7 +88,7 @@
       travelers: Math.max(1, opts.travelers | 0),
       budget: Math.max(0, Number(opts.budget) || 0),
       startDate: opts.startDate,
-      timezone: opts.timezone || 'Asia/Tokyo',
+      timezone: opts.timezone || 'Asia/Seoul',
     };
     return { meta, days };
   }
@@ -171,7 +171,7 @@
   function buildICS(trip, days) {
     const lines = [
       'BEGIN:VCALENDAR', 'VERSION:2.0',
-      'PRODID:-//TravelPlanner//kumamoto-travel//ZH',
+      'PRODID:-//TravelPlanner//busan-travel//ZH',
       'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
       `X-WR-CALNAME:${icsEscape(trip.title)}`,
       `X-WR-TIMEZONE:${trip.timezone}`,
@@ -190,8 +190,8 @@
         lines.push(`DTSTART;TZID=${trip.timezone}:${ymd}T${fmtHM(start)}00`);
         lines.push(`DTEND;TZID=${trip.timezone}:${ymd}T${fmtHM(end)}00`);
         lines.push(`SUMMARY:${icsEscape((act.icon || '') + ' ' + act.title)}`);
-        lines.push(`DESCRIPTION:${icsEscape((act.desc || '') + (act.budget ? ' (¥' + Number(act.budget).toLocaleString() + ')' : ''))}`);
-        lines.push(`UID:${ymd}-${i}@kumamoto-travel`);
+        lines.push(`DESCRIPTION:${icsEscape((act.desc || '') + (act.budget ? ' (₩' + Number(act.budget).toLocaleString() + ')' : ''))}`);
+        lines.push(`UID:${ymd}-${i}@busan-travel`);
         lines.push('END:VEVENT');
       });
     });

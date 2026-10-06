@@ -11,6 +11,7 @@ const leftTwd = trip.budget - estTwd;
 const overBudget = leftTwd < 0;
 const allLocationsJson = JSON.stringify(trip.locations);
 const tools = [
+  { href: '/guide', title: '出發功課', desc: '退稅、帝王蟹、湯飯點法、保養品、機場與緊急聯絡' },
   { href: '/tickets', title: '預訂資料', desc: '航班、住宿、退稅提醒' },
   { href: '/planner', title: '規劃工作台', desc: '拖曳排序、編輯活動、即時預算' },
   { href: '/planb', title: '應變中心', desc: '雨天替代方案、延誤應對' },
@@ -65,18 +66,27 @@ const tools = [
     </div>
 
     <h2 style="margin:1.5rem 0 0.75rem;">每日行程</h2>
-    <ul class="day-list">
-      {trip.days.map(day => (
-        <li>
-          <a href={`/day${day.day}`}>
-            <span class="d">{day.day}</span>
-            <span class="t">{day.title}</span>
-            <span class="b">₩{day.dayBudget.toLocaleString()}</span>
-            <span class="s">{day.date}・{day.subtitle}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    {trip.days.map(day => (
+      <section class="card day-block">
+        <a class="day-head" href={`/day${day.day}`}>
+          <span class="d">{day.day}</span>
+          <span class="t">{day.title}</span>
+          <span class="b">₩{day.dayBudget.toLocaleString()}</span>
+          <span class="s">{day.date}・{day.subtitle}</span>
+        </a>
+        <ol class="mini">
+          {day.activities.map(a => (
+            <li class={`t-${a.type}`}>
+              <time>{a.time}</time>
+              <span class="dot" aria-hidden="true"></span>
+              <span class="what">{a.icon} {a.title}</span>
+              <span class="cost">{a.budget ? `₩${a.budget.toLocaleString()}` : ''}</span>
+            </li>
+          ))}
+        </ol>
+        <a class="more-link" href={`/day${day.day}`}>看 Day {day.day} 完整細項與地圖</a>
+      </section>
+    ))}
 
     <h2 style="margin:2rem 0 0.75rem;">要吃的</h2>
     <div class="food-grid">

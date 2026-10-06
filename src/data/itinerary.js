@@ -6,32 +6,32 @@ const day1 = [
   { time: '06:10', icon: '✈️', title: '抵達金海機場', desc: '國際航廈入境、領行李，約 07:15 出關。先上網填好 e-Arrival Card', budget: 0, type: 'flight', gmap: map('Gimhae International Airport') },
   { time: '07:30', icon: '🚕', title: '搭車到釜山站', desc: '計程車約 25 分鐘、₩18,000–20,000；省錢可搭輕軌轉地鐵（05:00 起營運，約 ₩1,800、1 小時多）', budget: 20000, type: 'transport', gmap: map('Busan Station') },
   { time: '08:15', icon: '🏨', title: '寄放行李', desc: 'Almond Hotel 釜山站。早上只能寄放，下午才能入住', budget: 0, type: 'hotel', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
-  { time: '08:45', icon: '🍲', title: '豬肉湯飯 ①', desc: '釜山站步行約 4 分鐘。營業約 08:30–21:30（各來源略有出入），常要排隊', ko: '본전돼지국밥', budget: 24000, type: 'food', gmap: map('본전돼지국밥 부산역') },
+  { time: '08:45', icon: '🍲', title: '豬肉湯飯 ①', desc: '釜山站步行約 4 分鐘。營業約 08:30–21:30（各來源略有出入），常要排隊', ko: '본전돼지국밥', budget: 30000, type: 'food', gmap: map('본전돼지국밥 부산역') },
   { time: '09:30', icon: '🚕', title: '計程車去好市多金海店', desc: '車程請在 Kakao T 查，預留 50 分鐘，趕 10:00 開門', budget: 45000, type: 'transport', gmap: 'https://maps.app.goo.gl/9HdHpWTyh6HaVjCS8' },
   { time: '10:15', icon: '🛒', title: '好市多（Costco）金海店', desc: '10:00 開門，一大早人少。帶會員卡與護照，付款用 Visa 最保險，Mastercard 說法不一，備現金。先買零食、堅果、保養品等耐放品，生鮮與冷藏品別買，要放 3 天又要搭飛機', ko: '코스트코 김해점', budget: 150000, type: 'shopping', gmap: 'https://maps.app.goo.gl/9HdHpWTyh6HaVjCS8' },
   { time: '12:45', icon: '🚕', title: '回釜山站，放下採買品', desc: '計程車回飯店，把戰利品寄放在櫃台，再輕裝去吃蟹', budget: 45000, type: 'transport', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
-  { time: '14:15', icon: '🦀', title: '札嘎其市場午餐', desc: '1 樓挑帝王蟹、2 樓代客料理。3 人約 1.3kg，先問「全部多少錢」再成交', ko: '자갈치시장', budget: 200000, type: 'food', gmap: map('자갈치시장') },
-  { time: '16:15', icon: '🧴', title: '南浦洞 Olive Young', desc: '保養＋抗老：精華、乳霜、防曬、安瓶。南浦店能不能現場退稅需先查，不行就留到第 2 天廣安里店（官網標示可退）', ko: '올리브영 남포', budget: 100000, type: 'shopping', gmap: map('올리브영 남포') },
-  { time: '17:15', icon: '🥞', title: '南浦洞 BIFF 小吃', desc: '씨앗호떡（堅果糖餡煎餅）與 부산어묵（魚板串），釜山代表街頭小吃', ko: '씨앗호떡', budget: 9000, type: 'food', gmap: map('BIFF광장 씨앗호떡') },
+  { time: '14:15', icon: '🦀', title: '札嘎其市場午餐', desc: '1 樓挑蟹、2 樓代客料理。2026 年遊客回報約 ₩70,000–100,000／kg，另加人頭費約 ₩5,000／人與料理費。先問 3–5 家，請店家扣掉籃子重量，成交前問「全部多少錢」', ko: '자갈치시장', budget: 200000, type: 'food', gmap: map('자갈치시장') },
+  { time: '16:15', icon: '🧴', title: '南浦洞 Olive Young', desc: '保養＋抗老：精華、乳霜、防曬。單筆滿 ₩15,000 可退稅，結帳出示護照正本、辦「即時退稅」。南浦店能否辦理需現場問，不行就留到第 2 天廣安里店（官網標示可退）', ko: '올리브영 남포', budget: 100000, type: 'shopping', gmap: map('올리브영 남포') },
+  { time: '17:15', icon: '🥞', title: '南浦洞 BIFF 小吃', desc: '씨앗호떡（堅果糖餡煎餅）與 부산어묵（魚板串），釜山代表街頭小吃', ko: '씨앗호떡', budget: 9000, type: 'food', gmap: map('BIFF광장 씨앗호떡'), alt: { icon: '🏬', title: '樂天百貨光復店 地下食品區', desc: '雨天改在室內吃小點心', budget: 9000, type: 'food' } },
   { time: '18:00', icon: '🛏️', title: '入住、早點睡', desc: '凌晨出發，已經很累，晚餐吃得下再說，不排正餐', budget: 0, type: 'hotel', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
 ];
 
 const day2 = [
-  { time: '08:30', icon: '🍲', title: '豬肉湯飯 ②', desc: '廣安里店，24 小時營業。湯頭較濃、肉量大方；傍晚人多，早上較好吃', ko: '수변최고돼지국밥 광안점', budget: 24000, type: 'food', gmap: map('수변최고돼지국밥 광안로 63') },
+  { time: '08:30', icon: '🍲', title: '豬肉湯飯 ②', desc: '廣安里店，24 小時營業。湯頭較濃、肉量大方；傍晚人多，早上較好吃', ko: '수변최고돼지국밥 광안점', budget: 30000, type: 'food', gmap: map('수변최고돼지국밥 광안로 63') },
   { time: '10:00', icon: '🧴', title: '廣安里 Olive Young', desc: '官網標示可現場退稅。補齊昨天沒買的精華與防曬，面膜與護手霜也在這裡湊', ko: '올리브영 광안리점', budget: 80000, type: 'shopping', gmap: map('올리브영 광안리점') },
   { time: '12:00', icon: '🍜', title: '釜山冷麵 밀면', desc: '小麥冷麵，酸甜辣湯頭，釜山人的夏天味，11 月也有人吃。搭配煎餃（만두）', ko: '밀면', budget: 28000, type: 'food', gmap: map('밀면 수영구') },
-  { time: '13:30', icon: '🐚', title: '海雲台市場小吃', desc: '烤貝、年糕、炸物，邊走邊吃。吃完在海邊走走，回飯店休息', ko: '해운대시장', budget: 40000, type: 'food', gmap: map('해운대시장') },
+  { time: '13:30', icon: '🐚', title: '海雲台市場小吃', desc: '烤貝、年糕、炸物，邊走邊吃。吃完在海邊走走，回飯店休息', ko: '해운대시장', budget: 40000, type: 'food', gmap: map('해운대시장'), alt: { icon: '🏬', title: '新世界 Centum City 美食街', desc: '雨天改在百貨內吃，室內不淋雨', budget: 40000, type: 'food' } },
   { time: '16:00', icon: '🛏️', title: '回飯店休息', desc: '兩天都早起，下午補眠，晚上再出門', budget: 0, type: 'hotel', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
-  { time: '18:30', icon: '🌉', title: '廣安里夜景與晚餐', desc: '看廣安大橋點燈，海邊挑一家烤肉或海鮮，慢慢吃', ko: '광안리', budget: 70000, type: 'food', gmap: map('광안리해수욕장') },
+  { time: '18:30', icon: '🌉', title: '廣安里夜景與晚餐', desc: '看廣安大橋點燈，海邊挑一家烤肉或海鮮，慢慢吃', ko: '광안리', budget: 70000, type: 'food', gmap: map('광안리해수욕장'), alt: { icon: '🥩', title: '室內烤肉晚餐', desc: '雨天不看夜景，在飯店附近找室內烤肉店', budget: 70000, type: 'food' } },
 ];
 
 const day3 = [
-  { time: '09:00', icon: '🍲', title: '豬肉湯飯 ③', desc: '西面國밥巷，24 小時營業（公休日請先確認）。代表菜是맛녀석국밥', ko: '송정3대국밥 서면점', budget: 24000, type: 'food', gmap: map('송정3대국밥 서면점 서면로68번길 33') },
-  { time: '10:00', icon: '🏬', title: '西面購物', desc: '樂天百貨釜山本店、西面地下街。最後補貨與伴手禮，免稅需當天刷卡後辦理', ko: '서면', budget: 100000, type: 'shopping', gmap: map('롯데백화점 부산본점') },
+  { time: '09:00', icon: '🍲', title: '豬肉湯飯 ③', desc: '西面國밥巷，24 小時營業（公休日請先確認）。代表菜是맛녀석국밥', ko: '송정3대국밥 서면점', budget: 30000, type: 'food', gmap: map('송정3대국밥 서면점 서면로68번길 33') },
+  { time: '10:00', icon: '🏬', title: '西面購物', desc: '樂天百貨釜山本店、西面地下街。最後補貨與伴手禮。結帳出示護照，單筆滿 ₩15,000 辦即時退稅', ko: '서면', budget: 100000, type: 'shopping', gmap: map('롯데백화점 부산본점') },
   { time: '12:30', icon: '🍙', title: '釜山站最後一餐', desc: '충무김밥（忠武海苔飯卷配辣魷魚、蘿蔔）或 동래파전（東萊蔥煎餅）；삼진어묵 魚板帶回家', ko: '충무김밥', budget: 30000, type: 'food', gmap: map('부산역 충무김밥') },
-  { time: '14:00', icon: '☕', title: '咖啡休息、整理行李', desc: '回飯店把採買品分裝進託運行李：液體與保養品放託運，總重 20kg 內，磅一次', budget: 10000, type: 'food', gmap: map('부산역 카페') },
+  { time: '14:00', icon: '☕', title: '咖啡休息、整理行李', desc: '回飯店把採買品分裝進託運行李：液體與保養品放託運（已辦即時退稅的才可託運），總重 20kg 內，磅一次', budget: 10000, type: 'food', gmap: map('부산역 카페') },
   { time: '17:00', icon: '🥩', title: '晚餐：烤五花肉', desc: '釜山站周邊，最後一頓好好吃', budget: 60000, type: 'food', gmap: map('부산역 삼겹살') },
-  { time: '18:30', icon: '🚕', title: '取行李、前往金海機場', desc: '計程車約 25 分鐘、₩18,000–20,000，19:30 前到機場辦理退稅與登機', budget: 20000, type: 'transport', gmap: map('Gimhae International Airport') },
+  { time: '18:30', icon: '🚕', title: '取行李、前往金海機場', desc: '計程車約 25 分鐘、₩18,000–20,000。金海機場退稅是人工櫃台、只有一人作業，會排隊，建議 19:00 前到', budget: 20000, type: 'transport', gmap: map('Gimhae International Airport') },
   { time: '22:00', icon: '🛫', title: '7C6163 起飛', desc: '23:50 抵達桃園第一航廈，託運 15kg＋5kg', budget: 0, type: 'flight', gmap: map('Gimhae International Airport') },
 ];
 
@@ -48,9 +48,9 @@ export const trip = {
   timezone: 'Asia/Seoul',
 
   weather: {
-    temp: '18°C / 12°C',
-    condition: '初秋・早晚涼爽・日夜溫差大',
-    tip: '薄外套必帶、洋蔥式穿搭',
+    temp: '白天約 17–20°C／早晚約 8–12°C（推估）',
+    condition: '深秋・早晚偏涼・日夜溫差大・海邊風大',
+    tip: '長袖加薄針織，外面套風衣或薄外套；折疊傘備著',
   },
 
   hotel: {

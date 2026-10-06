@@ -1,13 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#1a1a2e"/>
-      <stop offset="100%" stop-color="#d4342c"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <text x="600" y="260" text-anchor="middle" fill="white" font-size="64" font-weight="700" font-family="sans-serif">🗾 熊本四天三夜自由行</text>
-  <text x="600" y="340" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="32" font-family="sans-serif">美食・休閒・溫泉・六萬日幣</text>
-  <text x="600" y="410" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="24" font-family="sans-serif">2026/7/17 → 7/20 · 2人</text>
-  <text x="600" y="560" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="18" font-family="sans-serif">Travel Planner · Astro + Cloudflare Pages</text>
+  <rect width="1200" height="630" fill="#11283d"/>
+  <text x="80" y="300" fill="#e9eeec" font-size="220" font-family="sans-serif">부산</text>
+  <text x="80" y="400" fill="#e9eeec" font-size="56" font-weight="700" font-family="sans-serif">釜山三日自由行</text>
+  <text x="80" y="460" fill="#9db0b3" font-size="30" font-family="sans-serif">豬肉湯飯・保養・好市多　2026/10/31 – 11/2</text>
+  <path d="M0 580 H1200 M200 580 V470 M1000 580 V470 M0 540 Q100 530 200 470 Q600 590 1000 470 Q1100 530 1200 540" stroke="#4fb7b0" stroke-width="3" fill="none"/>
 </svg>

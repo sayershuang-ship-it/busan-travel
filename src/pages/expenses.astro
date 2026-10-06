@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { trip } from '../data/itinerary';
 const tripJson = JSON.stringify(trip);
 
@@ -11,6 +12,8 @@ const categoryNames = {
   onsen: '溫泉',
   shopping: '購物',
   free: '免費',
+  flight: '航班',
+  outdoor: '散步',
 };
 
 const cats = {};
@@ -31,12 +34,8 @@ const maxCatPlanned = Math.max(1, ...categoryEntries.map(c => c.planned));
 const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
 ---
 
-<Base title="花費追蹤 | 釜山旅行">
-  <header class="hero" style="padding:2rem 1rem;">
-    <a href="/" style="color:white;opacity:0.7;text-decoration:none;font-size:0.85rem;">← 回總覽</a>
-    <h1 style="margin-top:0.5rem;">💰 花費追蹤</h1>
-    <p class="subtitle">記錄實際支出，掌控旅行預算</p>
-  </header>
+<Base title="花費追蹤">
+  <PageHero title="花費追蹤" subtitle="記錄實際支出，掌控旅行預算" />
 
 
   <main class="container" style="padding-top:1.5rem;">
@@ -50,15 +49,15 @@ const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;">
       <div class="card" style="text-align:center;">
         <div style="font-size:0.8rem;color:var(--text-muted);">預算總計</div>
-        <div style="font-size:1.5rem;font-weight:700;color:var(--text);" id="summary-budget">¥{totalBudget.toLocaleString()}</div>
+        <div style="font-size:1.5rem;font-weight:700;color:var(--text);" id="summary-budget">₩{totalBudget.toLocaleString()}</div>
       </div>
       <div class="card" style="text-align:center;">
         <div style="font-size:0.8rem;color:var(--text-muted);">實際花費</div>
-        <div style="font-size:1.5rem;font-weight:700;color:var(--brand);" id="summary-actual">¥0</div>
+        <div style="font-size:1.5rem;font-weight:700;color:var(--brand);" id="summary-actual">₩0</div>
       </div>
       <div class="card" style="text-align:center;">
         <div style="font-size:0.8rem;color:var(--text-muted);">差額</div>
-        <div style="font-size:1.5rem;font-weight:700;" id="summary-diff">¥{totalBudget.toLocaleString()}</div>
+        <div style="font-size:1.5rem;font-weight:700;" id="summary-diff">₩{totalBudget.toLocaleString()}</div>
       </div>
     </div>
 
@@ -70,8 +69,8 @@ const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
           <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:0.25rem;">
             <span>{cat.label}</span>
             <span>
-              <span style="color:var(--text-muted);">¥{cat.planned.toLocaleString()}</span>
-              <span style="margin-left:0.5rem;font-weight:600;" data-cat-actual={cat.key}>¥0</span>
+              <span style="color:var(--text-muted);">₩{cat.planned.toLocaleString()}</span>
+              <span style="margin-left:0.5rem;font-weight:600;" data-cat-actual={cat.key}>₩0</span>
             </span>
           </div>
           <div class="expense-bar">
@@ -90,7 +89,7 @@ const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
           <div>
             <div class="date">{d.date}</div>
             <div class="day-title">{d.title}</div>
-            <div class="day-subtitle">預算 ¥{d.dayBudget.toLocaleString()} / <span data-day-total={d.day}>實際 ¥0</span></div>
+            <div class="day-subtitle">預算 ₩{d.dayBudget.toLocaleString()} / <span data-day-total={d.day}>實際 ₩0</span></div>
           </div>
         </div>
 
@@ -106,7 +105,7 @@ const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
                 </div>
               </div>
               <div class="expense-amounts">
-                <span class="expense-planned">¥{a.budget.toLocaleString()}</span>
+                <span class="expense-planned">₩{a.budget.toLocaleString()}</span>
                 <input
                   type="number"
                   class="expense-input"
@@ -124,8 +123,8 @@ const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
         <!-- Day subtotal bar -->
         <div style="margin-top:1rem;">
           <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;">
-            <span>日預算 ¥{d.dayBudget.toLocaleString()}</span>
-            <span data-day-actual={d.day}>實際 ¥0</span>
+            <span>日預算 ₩{d.dayBudget.toLocaleString()}</span>
+            <span data-day-actual={d.day}>實際 ₩0</span>
           </div>
           <div class="expense-bar">
             <div class="planned" style="width:100%;"></div>
@@ -186,10 +185,10 @@ const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
 
       // Update day total text
       const dayTotalEl = document.querySelector(`[data-day-total="${d.day}"]`);
-      if (dayTotalEl) dayTotalEl.textContent = `實際 ¥${dayActual.toLocaleString()}`;
+      if (dayTotalEl) dayTotalEl.textContent = `實際 ₩${dayActual.toLocaleString()}`;
 
       const dayActualEl = document.querySelector(`[data-day-actual="${d.day}"]`);
-      if (dayActualEl) dayActualEl.textContent = `實際 ¥${dayActual.toLocaleString()}`;
+      if (dayActualEl) dayActualEl.textContent = `實際 ₩${dayActual.toLocaleString()}`;
 
       // Update day bar
       const dayBar = document.querySelector(`[data-day-bar="${d.day}"]`);
@@ -204,12 +203,12 @@ const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
     });
 
     // Update summary cards
-    document.getElementById('summary-actual').textContent = `¥${totalActual.toLocaleString()}`;
+    document.getElementById('summary-actual').textContent = `₩${totalActual.toLocaleString()}`;
 
     const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
     const diff = totalBudget - totalActual;
     const diffEl = document.getElementById('summary-diff');
-    diffEl.textContent = `${diff >= 0 ? '-' : '+'}¥${Math.abs(diff).toLocaleString()}`;
+    diffEl.textContent = `${diff >= 0 ? '-' : '+'}₩${Math.abs(diff).toLocaleString()}`;
     diffEl.style.color = diff >= 0 ? 'var(--accent-green)' : '#ef4444';
 
     // Update category bars and numbers
@@ -221,7 +220,7 @@ const totalBudget = trip.days.reduce((s, d) => s + d.dayBudget, 0);
 
     Object.entries(catActuals).forEach(([cat, actual]) => {
       const catEl = document.querySelector(`[data-cat-actual="${cat}"]`);
-      if (catEl) catEl.textContent = `¥${actual.toLocaleString()}`;
+      if (catEl) catEl.textContent = `₩${actual.toLocaleString()}`;
 
       const barEl = document.querySelector(`[data-cat-bar="${cat}"]`);
       if (barEl) {

@@ -1,14 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { trip } from '../data/itinerary';
 const tripJson = JSON.stringify(trip);
 ---
 
 <Base title="開新旅程">
-  <header class="hero" style="padding:2rem 1rem;">
-    <h1>🆕 開新旅程</h1>
-    <p class="subtitle">輸入地點、日期、天數，馬上開始規劃下一段旅程</p>
-  </header>
+  <PageHero title="開新旅程" subtitle="輸入地點、日期、天數，馬上開始規劃下一段旅程" />
 
 
   <main class="container" style="padding-top:1.5rem;">
@@ -40,7 +38,7 @@ const tripJson = JSON.stringify(trip);
             <input name="travelers" type="number" min="1" max="20" value="2" />
           </div>
           <div class="form-row">
-            <label>總預算 (¥)</label>
+            <label>總預算 (₩)</label>
             <input name="budget" type="number" min="0" step="1000" value="60000" />
           </div>
         </div>
@@ -54,7 +52,7 @@ const tripJson = JSON.stringify(trip);
       <p style="font-size:0.75rem;color:var(--text-muted);margin-top:1rem;">
         會產生每日空白骨架（抵達日／自由安排／返程日），到 🧭 規劃工作台新增活動、
         到 📥 匯入頁貼上機票飯店確認信。新旅程存在此裝置瀏覽器；
-        Day 頁面、地圖、美食等頁仍為熊本範本內容。
+        Day 頁面、地圖、美食等頁仍為釜山範本內容。
       </p>
     </div>
   </main>
@@ -98,7 +96,7 @@ const tripJson = JSON.stringify(trip);
       subtitle: form.subtitle.value.trim(),
     });
     el.innerHTML = `📝 <strong>${T.esc(meta.title)}</strong><br/>` +
-      `<span style="color:var(--text-muted);">📅 ${T.esc(meta.dates)} · 👥 ${meta.travelers}人 · 💰 ¥${meta.budget.toLocaleString()}</span>`;
+      `<span style="color:var(--text-muted);">📅 ${T.esc(meta.dates)} · 👥 ${meta.travelers}人 · 💰 ₩${meta.budget.toLocaleString()}</span>`;
     el.style.display = 'block';
   }
   form.addEventListener('input', updatePreview);

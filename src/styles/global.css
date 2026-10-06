@@ -351,3 +351,26 @@ dialog.modal::backdrop { background: rgba(0,0,0,0.4); }
 }
 
 .facts b.over { color: var(--red); }
+
+/* Day blocks on the overview */
+.day-block { padding: 0; overflow: hidden; }
+.day-head {
+  display: grid; grid-template-columns: 2.5rem 1fr auto; gap: 0.1rem 0.75rem;
+  padding: 1rem 1.25rem; text-decoration: none; color: inherit;
+  border-bottom: 1px solid var(--line);
+}
+.day-head:hover { background: color-mix(in srgb, var(--teal) 8%, transparent); }
+.day-head .d { font-family: var(--serif); font-weight: 900; font-size: 1.6rem; color: var(--teal-dark); line-height: 1.2; grid-row: span 2; }
+.day-head .t { font-weight: 700; }
+.day-head .b { font-variant-numeric: tabular-nums; font-weight: 700; }
+.day-head .s { font-size: 0.85rem; color: var(--muted); grid-column: 2 / 4; }
+.mini { list-style: none; padding: 0.75rem 1.25rem; }
+.mini li { display: grid; grid-template-columns: 3rem 1rem 1fr auto; gap: 0.5rem; align-items: baseline; padding: 0.3rem 0; font-size: 0.9rem; }
+.mini time { font-variant-numeric: tabular-nums; font-weight: 700; text-align: right; }
+.mini .dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; border: 2px solid var(--dot, var(--ink)); align-self: center; }
+.mini .t-food { --dot: var(--red); }
+.mini .t-shopping { --dot: var(--yellow); }
+.mini .t-transport, .mini .t-flight { --dot: var(--sky); }
+.mini .t-hotel, .mini .t-outdoor { --dot: var(--teal); }
+.mini .cost { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.8rem; }
+.more-link { display: block; padding: 0.75rem 1.25rem; border-top: 1px solid var(--line); font-size: 0.9rem; font-weight: 500; }

@@ -1,0 +1,12 @@
+---
+import Skyline from './Skyline.astro';
+const { title, subtitle } = Astro.props;
+---
+<header class="hero compact">
+  <div class="hero-inner">
+    <a href="/" class="back">回總覽</a>
+    <h1>{title}</h1>
+    {subtitle && <p class="subtitle">{subtitle}</p>}
+    <Skyline />
+  </div>
+</header>

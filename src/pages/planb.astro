@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { trip, contingency } from '../data/itinerary';
 const tripJson = JSON.stringify(trip);
 
@@ -10,10 +11,7 @@ const swappables = trip.days.flatMap(d =>
 ---
 
 <Base title="應變計畫中心">
-  <header class="hero" style="padding:2rem 1rem;">
-    <h1>🆘 應變計畫中心</h1>
-    <p class="subtitle">下雨、太熱、延誤、走不動——都有 Plan B</p>
-  </header>
+  <PageHero title="應變計畫中心" subtitle="下雨、太熱、延誤、走不動——都有 Plan B" />
 
 
   <main class="container" style="padding-top:1.5rem;">
@@ -79,7 +77,9 @@ const swappables = trip.days.flatMap(d =>
           <tr><td>🚑 救護車 / 火警</td><td><strong style="font-size:1.1rem;">119</strong></td></tr>
           <tr><td>👮 警察</td><td><strong style="font-size:1.1rem;">112</strong></td></tr>
           <tr><td>🗣️ 韓國旅遊諮詢熱線（24 小時，中文可）</td><td><strong>1330</strong></td></tr>
-          <tr><td>🚕 釜山計程車（TaxiGO app 可叫車）</td><td>市區起跳約 ₩4,800</td></tr>
+          <tr><td>🇹🇼 駐韓國台北代表部釜山辦事處（中央大路 70 號 9 樓）</td><td>051-463-7965</td></tr>
+          <tr><td>🆘 急難救助專線（限中文，只供急難）</td><td><strong>010-4537-7961</strong></td></tr>
+          <tr><td>🚕 釜山計程車（Kakao T 可叫車）</td><td>市區起跳約 ₩4,800</td></tr>
         </tbody>
       </table>
       <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">
@@ -173,7 +173,7 @@ const swappables = trip.days.flatMap(d =>
       const end = new Date(trip.startDate + 'T00:00:00');
       end.setDate(end.getDate() + trip.days.length - 1);
       const endStr = end.toISOString().slice(0, 10);
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=32.80&longitude=130.71&daily=precipitation_probability_max,temperature_2m_max&timezone=Asia%2FTokyo&start_date=${trip.startDate}&end_date=${endStr}`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=35.18&longitude=129.08&daily=precipitation_probability_max,temperature_2m_max&timezone=Asia%2FSeoul&start_date=${trip.startDate}&end_date=${endStr}`;
       const res = await fetch(url);
       const data = await res.json();
       const probs = data?.daily?.precipitation_probability_max;
@@ -181,16 +181,16 @@ const swappables = trip.days.flatMap(d =>
       if (!probs) return;
       const rainy = [], hot = [];
       probs.forEach((p, i) => { if (p >= 50) rainy.push(`Day ${i + 1} (${p}%)`); });
-      (temps || []).forEach((t, i) => { if (t >= 34) hot.push(`Day ${i + 1} (${Math.round(t)}°C)`); });
+      (temps || []).forEach((t, i) => { if (t <= 12) hot.push(`Day ${i + 1} (${Math.round(t)}°C)`); });
       if (rainy.length || hot.length) {
         const el = document.getElementById('rain-alert');
         const parts = [];
-        if (rainy.length) parts.push(`☔ 高降雨機率：${rainy.join('、')} — 建議先看「午後雷陣雨」情境並套用替代方案`);
-        if (hot.length) parts.push(`🥵 高溫警戒：${hot.join('、')} — 中午避開戶外`);
+        if (rainy.length) parts.push(`☔ 高降雨機率：${rainy.join('、')} — 建議先看「雨天備案」並套用替代方案`);
+        if (hot.length) parts.push(`🥶 偏冷：${hot.join('、')} — 多帶一件外套，海邊散步縮短`);
         el.innerHTML = parts.join('<br/>');
         el.style.display = 'block';
         if (rainy.length) document.getElementById('scenario-rain').open = true;
-        else if (hot.length) document.getElementById('scenario-heat').open = true;
+        
       }
     } catch { /* 離線時略過即時預報 */ }
   })();

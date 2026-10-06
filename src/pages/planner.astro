@@ -1,14 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { trip } from '../data/itinerary';
 const tripJson = JSON.stringify(trip);
 ---
 
 <Base title="行程規劃工作台">
-  <header class="hero" style="padding:2rem 1rem;">
-    <h1>🧭 行程規劃工作台</h1>
-    <p class="subtitle">拖曳排序・編輯活動・即時預算，打造你的專屬版本</p>
-  </header>
+  <PageHero title="行程規劃工作台" subtitle="拖曳排序・編輯活動・即時預算，打造你的專屬版本" />
 
 
   <main class="container" style="padding-top:1.5rem;">
@@ -22,7 +20,7 @@ const tripJson = JSON.stringify(trip);
       <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:0.5rem;">
         <h2>💰 計畫總預算</h2>
         <div><span id="plan-total" style="font-size:1.3rem;font-weight:700;color:var(--brand);"></span>
-        <span style="color:var(--text-muted);font-size:0.85rem;"> / ¥<span id="budget-cap"></span></span></div>
+        <span style="color:var(--text-muted);font-size:0.85rem;"> / ₩<span id="budget-cap"></span></span></div>
       </div>
       <div class="budget-bar" style="height:0.65rem;background:var(--border);">
         <div id="plan-total-bar" class="seg" style="background:var(--brand);border-radius:999px;transition:width 0.3s;"></div>
@@ -59,7 +57,7 @@ const tripJson = JSON.stringify(trip);
       <div class="form-row"><label>活動名稱</label><input name="title" required maxlength="40" /></div>
       <div class="form-row"><label>說明</label><textarea name="desc" rows="2" maxlength="120"></textarea></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-        <div class="form-row"><label>預算 (¥)</label><input name="budget" type="number" min="0" step="100" value="0" /></div>
+        <div class="form-row"><label>預算 (₩)</label><input name="budget" type="number" min="0" step="100" value="0" /></div>
         <div class="form-row"><label>類型</label>
           <select name="type">
             <option value="food">🍜 餐飲</option>
@@ -116,14 +114,14 @@ const tripJson = JSON.stringify(trip);
     document.getElementById('budget-cap').textContent = Number(meta.budget).toLocaleString();
 
     const total = T.planTotal(days);
-    document.getElementById('plan-total').textContent = '¥' + total.toLocaleString();
+    document.getElementById('plan-total').textContent = '₩' + total.toLocaleString();
     const pct = meta.budget > 0 ? Math.min(100, Math.round(total / meta.budget * 100)) : 100;
     const bar = document.getElementById('plan-total-bar');
     bar.style.width = pct + '%';
     bar.style.background = total > meta.budget ? '#ef4444' : 'var(--brand)';
     document.getElementById('plan-total-note').textContent = total > meta.budget
-      ? `⚠️ 超出預算 ¥${(total - meta.budget).toLocaleString()}`
-      : `尚有餘裕 ¥${(meta.budget - total).toLocaleString()}（${pct}% 已分配）`;
+      ? `⚠️ 超出預算 ₩${(total - meta.budget).toLocaleString()}`
+      : `尚有餘裕 ₩${(meta.budget - total).toLocaleString()}（${pct}% 已分配）`;
 
     root.innerHTML = days.map((d, di) => `
       <div class="card" data-day="${di}">
@@ -131,7 +129,7 @@ const tripJson = JSON.stringify(trip);
           <div class="day-num">${d.day}</div>
           <div>
             <div class="day-title">${T.esc(d.title)}</div>
-            <div class="day-subtitle">${T.esc(d.date)} · ${d.activities.length} 個活動 · ¥${T.dayTotal(d).toLocaleString()}</div>
+            <div class="day-subtitle">${T.esc(d.date)} · ${d.activities.length} 個活動 · ₩${T.dayTotal(d).toLocaleString()}</div>
           </div>
         </div>
         <div class="plan-day-drop" data-day="${di}" data-pos="0"></div>
@@ -144,7 +142,7 @@ const tripJson = JSON.stringify(trip);
               <div class="act-title">${T.esc(a.title)}${a.swapped ? '<span class="swapped-badge">替代方案</span>' : ''}</div>
               <div class="act-meta">${T.esc(a.time)} · ${T.esc(a.desc || '')}</div>
               <div class="act-meta"><span class="tag tag-${T.esc(a.type || 'free')}">${typeLabels[a.type] || a.type || '其他'}</span>
-                <strong style="color:${a.budget ? 'var(--brand)' : 'var(--accent-green)'};">${a.budget ? '¥' + Number(a.budget).toLocaleString() : '免費'}</strong></div>
+                <strong style="color:${a.budget ? 'var(--brand)' : 'var(--accent-green)'};">${a.budget ? '₩' + Number(a.budget).toLocaleString() : '免費'}</strong></div>
             </div>
             <div class="act-actions">
               <button class="icon-btn" data-op="up" title="上移">↑</button>

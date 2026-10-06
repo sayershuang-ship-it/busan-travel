@@ -1,11 +1,11 @@
 {
-  "name": "kumamoto-travel",
-  "short_name": "熊本旅行",
-  "description": "熊本四天三夜自由行行程規劃",
+  "name": "busan-travel",
+  "short_name": "釜山旅行",
+  "description": "釜山三日自由行行程規劃",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#faf8f5",
-  "theme_color": "#d4342c",
+  "background_color": "#e9eeec",
+  "theme_color": "#11283d",
   "icons": [
     { "src": "/images/icon-192.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
