@@ -1,0 +1,36 @@
+---
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const primary = [
+  { href: '/', label: '總覽' },
+  { href: '/prepare', label: '待辦' },
+  { href: '/day1', label: 'Day 1' },
+  { href: '/day2', label: 'Day 2' },
+  { href: '/day3', label: 'Day 3' },
+];
+const more = [
+  { href: '/map', label: '地圖' },
+  { href: '/expenses', label: '花費' },
+  { href: '/tickets', label: '預訂' },
+  { href: '/weather', label: '天氣' },
+  { href: '/planner', label: '規劃' },
+  { href: '/calendar', label: '日曆' },
+  { href: '/import', label: '匯入' },
+  { href: '/planb', label: '應變' },
+];
+const inMore = more.some(m => m.href === path);
+---
+<nav class="nav" aria-label="主選單">
+  <div class="nav-inner">
+    {primary.map(l => (
+      <a href={l.href} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a>
+    ))}
+    <details class="nav-more">
+      <summary aria-current={inMore ? 'page' : undefined}>更多</summary>
+      <div class="nav-more-list">
+        {more.map(l => (
+          <a href={l.href} aria-current={path === l.href ? 'page' : undefined}>{l.label}</a>
+        ))}
+      </div>
+    </details>
+  </div>
+</nav>

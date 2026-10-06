@@ -1,332 +1,148 @@
 ---
 import Base from '../layouts/Base.astro';
+import Skyline from '../components/Skyline.astro';
+import { trip } from '../data/itinerary';
+
+const kk = (q) => `https://www.kkday.com/zh-tw/product/productlist?keyword=${encodeURIComponent(q)}`;
+const kl = (q) => `https://www.klook.com/zh-TW/search/result/?query=${encodeURIComponent(q)}`;
+
+const groups = [
+  {
+    title: '已訂好',
+    items: [
+      { id: 'flight-out', text: '去程 7C6164　10/31 02:50 桃園 → 06:10 釜山', note: '濟州航空，第一航廈，託運 15kg' },
+      { id: 'flight-back', text: '回程 7C6163　11/2 22:00 釜山 → 23:50 桃園', note: '託運 15kg＋5kg' },
+      { id: 'hotel', text: `住宿　${trip.hotel.name}`, note: trip.hotel.note + '。訂單編號請看訂房信，不放在這個公開網頁' },
+    ],
+  },
+  {
+    title: '建議先買（KKday 或 Klook 擇一，下單前兩邊比價）',
+    items: [
+      {
+        id: 'esim',
+        text: '韓國 eSIM（3 人各一張，或選可分享的方案）',
+        note: '地圖、叫車、查營業時間都靠網路。可在桃園機場候機時用台灣網路先裝好，落地就能用。一天約 NT$60–70 的 5G 方案常見，價格常變',
+        links: [['KKday', kk('韓國 eSIM')], ['Klook', kl('韓國 eSIM')]],
+      },
+      {
+        id: 'tmoney',
+        text: 'T-money 或 WOWPASS 交通卡（機場取貨）',
+        note: '06:10 落地就要搭輕軌與地鐵。也可以在機場輕軌站的 Emart24 現場買，約 ₩4,000 加儲值至少 ₩10,000；預購的好處是不用找店。WOWPASS 可在機台用台幣換韓元',
+        links: [['KKday', kk('釜山 T-money')], ['Klook', kl('釜山 T-money')]],
+      },
+    ],
+  },
+  {
+    title: '看情況（不一定要訂）',
+    items: [
+      {
+        id: 'transfer-in',
+        text: '去程機場接送到釜山站',
+        note: '輕軌加地鐵約 ₩1,800、約 1 小時多，05:00 已營運。計程車約 ₩18,000–20,000、約 25 分鐘。三人帶 15kg 行李且睡不到，才考慮預訂專車（KKday 台灣站約 NT$1,648 起）',
+        links: [['KKday', kk('釜山 金海機場 接送')], ['Klook', kl('釜山 金海機場 接送')]],
+      },
+      {
+        id: 'charter',
+        text: 'Day 1 包車（機場 → 飯店 → 好市多 → 市區）',
+        note: '當天計程車共 3 趟約 ₩110,000。若想省去叫車與換車，可比較一天包車的價格；叫車用 Kakao T 也可以',
+        links: [['KKday', kk('釜山 包車')], ['Klook', kl('釜山 包車')]],
+      },
+      {
+        id: 'transfer-out',
+        text: '回程 18:30 出發去機場',
+        note: '同上；回程多了採買行李，三人約 20kg 加上保養品，計程車較輕鬆，不需預訂',
+      },
+    ],
+  },
+  {
+    title: '不用預訂（現場就好）',
+    items: [
+      { id: 'costco', text: '好市多金海店（Day 1 早上）', note: '帶會員卡與護照入場，無需預約。10/31 是週六，不在週日公休範圍內，10:00 開門' },
+      { id: 'soup', text: '三家豬肉湯飯', note: '多半不接受訂位，只能現場排隊；수변최고 在平台上可線上候位，其他先避開用餐尖峰' },
+      { id: 'crab', text: '札嘎其市場帝王蟹', note: '現場挑選與議價，無法預訂。公休是每月第 1、3、5 個週二，10/31 不受影響' },
+      { id: 'oy', text: 'Olive Young 與西面購物', note: '直接逛。平台上可能有購物折價券，我沒有查證，下單前自己看內容與使用條件' },
+    ],
+  },
+];
+const total = groups.reduce((n, g) => n + g.items.length, 0);
 ---
 
-<Base title="預訂清單 | 熊本旅行">
-  <header class="hero" style="padding:2rem 1rem;">
-    <a href="/" style="color:white;opacity:0.7;text-decoration:none;font-size:0.85rem;">← 回總覽</a>
-    <h1 style="margin-top:0.5rem;">🎫 預訂清單</h1>
-    <p class="subtitle">出發前必確認事項，勾選後自動儲存</p>
+<Base title="預訂清單">
+  <header class="hero compact">
+    <div class="hero-inner">
+      <a href="/" class="back">回總覽</a>
+      <h1>預訂清單</h1>
+      <p class="subtitle">哪些要先上網買，哪些現場就好</p>
+      <Skyline />
+    </div>
   </header>
 
-  <nav class="nav">
-    <a href="/">📋 總覽</a>
-    <a href="/day1">Day 1</a>
-    <a href="/day2">Day 2</a>
-    <a href="/day3">Day 3</a>
-    <a href="/day4">Day 4</a>
-    <a href="/planner">🧭 規劃</a>
-    <a href="/map">🗺️ 地圖</a>
-    <a href="/weather">🌤️ 天氣</a>
-    <a href="/tickets" class="active">🎫 預訂</a>
-    <a href="/expenses">💰 花費</a>
-    <a href="/calendar">📅 日曆</a>
-    <a href="/import">📥 匯入</a>
-    <a href="/planb">🆘 應變</a>
-  </nav>
-
-  <main class="container" style="padding-top:1.5rem;">
-
-    <div class="card" id="progress-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
-        <h2>✅ 完成進度</h2>
-        <span id="progress-text" style="font-weight:700;color:var(--brand);">0 / 0</span>
-      </div>
-      <div style="background:var(--border);border-radius:999px;height:0.5rem;">
-        <div id="progress-bar" style="background:var(--accent-green);height:100%;border-radius:999px;transition:width 0.3s;width:0%;"></div>
-      </div>
-      <button id="reset-btn" style="margin-top:0.75rem;background:none;border:1px solid var(--border);border-radius:999px;padding:0.3rem 1rem;font-size:0.8rem;color:var(--text-muted);cursor:pointer;">重置所有</button>
-    </div>
-
-    <!-- Section: 必須 (出發前) -->
-    <div class="card">
-      <h2 style="margin-bottom:1rem;">🔴 必須預訂（出發前）</h2>
-      <div class="checklist">
-        <label class="check-item" data-id="flight">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">✈️ 機票（來回）</div>
-            <div class="check-desc">7/17 出發・7/20 返回。Peach / Jetstar 等平價航空<br/>
-              <a href="https://www.google.com/travel/flights" target="_blank" rel="noopener">→ Google Flights 搜尋</a>
-            </div>
-          </div>
-          <span class="check-badge badge-must">必須</span>
-        </label>
-
-        <label class="check-item" data-id="hotel">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🏨 飯店（3晚）</div>
-            <div class="check-desc">熊本駅周辺。¥6,000/室/晚 × 3晚 = ¥18,000<br/>
-              <a href="https://www.booking.com/searchresults/ja.html?ss=Kumamoto+Station" target="_blank" rel="noopener">→ Booking.com 搜尋</a>
-              &nbsp;·&nbsp;
-              <a href="https://www.agoda.com/ja-jp/city/kumamoto-jp.html" target="_blank" rel="noopener">→ Agoda</a>
-            </div>
-          </div>
-          <span class="check-badge badge-must">必須</span>
-        </label>
+  <main class="container" style="padding-top:1.25rem;">
+    <div class="note">
+      <strong>已確認 <span id="done">0</span> / {total}</strong>
+      這趟真正需要先上網買的只有 eSIM 與交通卡，其餘大多現場處理。價格與庫存請在平台上看最新資訊。
+      <div class="toolbar" style="margin:0.75rem 0 0;">
+        <button class="btn secondary" id="reset" type="button">全部取消勾選</button>
       </div>
     </div>
 
-    <!-- Section: 強烈推薦 -->
-    <div class="card">
-      <h2 style="margin-bottom:1rem;">🟡 強烈推薦（提早訂）</h2>
-      <div class="checklist">
-        <label class="check-item" data-id="suganoya">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🥩 菅乃屋 馬刺し（Day 1 晚餐）</div>
-            <div class="check-desc">熱門名店，周末容易客滿。建議提前訂座<br/>
-              <a href="https://www.suganoya.com" target="_blank" rel="noopener">→ 官網訂位</a>
-            </div>
-          </div>
-          <span class="check-badge badge-recommend">推薦</span>
-        </label>
-
-        <label class="check-item" data-id="nekko">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🍺 郷彩根っこ（Day 2 晚餐）</div>
-            <div class="check-desc">郷土料理居酒屋，周六訂位需提早<br/>
-              <a href="https://tabelog.com/kumamoto/A4301/A430101/43000456/" target="_blank" rel="noopener">→ 食べログ</a>
-            </div>
-          </div>
-          <span class="check-badge badge-recommend">推薦</span>
-        </label>
-
-        <label class="check-item" data-id="tram-pass">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🚃 市電モバイル1日券（Day 3）</div>
-            <div class="check-desc">¥500/人。旅行當天在熊本市交通局APP購買即可<br/>
-              <a href="https://www.kotsu-kumamoto.jp/kitetne/sp/top.aspx" target="_blank" rel="noopener">→ 熊本市交通局</a>
-            </div>
-          </div>
-          <span class="check-badge badge-recommend">推薦</span>
-        </label>
-      </div>
-    </div>
-
-    <!-- Section: 現場購票 -->
-    <div class="card">
-      <h2 style="margin-bottom:1rem;">🟢 現場購票 OK</h2>
-      <div class="checklist">
-        <label class="check-item" data-id="kumamoto-castle">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🏯 熊本城（Day 1）</div>
-            <div class="check-desc">¥800/人。現場購票，一般不需預訂<br/>
-              <a href="https://kumamoto-guide.jp/kumamoto-castle/" target="_blank" rel="noopener">→ 公式網站</a>
-            </div>
-          </div>
-          <span class="check-badge badge-ok">現場</span>
-        </label>
-
-        <label class="check-item" data-id="suizenji">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🌅 水前寺成趣園（Day 2）</div>
-            <div class="check-desc">¥400/人。入口現場購票<br/>
-              <a href="https://www.suizenji.or.jp" target="_blank" rel="noopener">→ 公式網站</a>
-            </div>
-          </div>
-          <span class="check-badge badge-ok">現場</span>
-        </label>
-
-        <label class="check-item" data-id="museum">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🏛️ 熊本県立美術館（Day 2）</div>
-            <div class="check-desc">分館 ¥300/人。現場購票</div>
-          </div>
-          <span class="check-badge badge-ok">現場</span>
-        </label>
-
-        <label class="check-item" data-id="yurakkusu">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">♨️ 湯らっくす（Day 1 溫泉）</div>
-            <div class="check-desc">¥800/人。24H営業，不需預訂<br/>
-              <a href="https://yurax.jp" target="_blank" rel="noopener">→ 公式網站</a>
-            </div>
-          </div>
-          <span class="check-badge badge-ok">現場</span>
-        </label>
-
-        <label class="check-item" data-id="agannabbe">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">♨️ あがんなっせ（Day 2 溫泉）</div>
-            <div class="check-desc">¥1,000/人。不需預訂</div>
-          </div>
-          <span class="check-badge badge-ok">現場</span>
-        </label>
-
-        <label class="check-item" data-id="zoo">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🐻 熊本市動植物園（Day 3）</div>
-            <div class="check-desc">¥600/人。現場購票</div>
-          </div>
-          <span class="check-badge badge-ok">現場</span>
-        </label>
-      </div>
-    </div>
-
-    <!-- Section: 確認事項 -->
-    <div class="card">
-      <h2 style="margin-bottom:1rem;">📋 出發前確認</h2>
-      <div class="checklist">
-        <label class="check-item" data-id="passport">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🛂 護照有效期確認</div>
-            <div class="check-desc">入境日本需有效期 6 個月以上</div>
-          </div>
-        </label>
-        <label class="check-item" data-id="ic-card">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">💳 Suica / ICOCA 儲值</div>
-            <div class="check-desc">用於市電、便利商店。建議先儲值 ¥3,000</div>
-          </div>
-        </label>
-        <label class="check-item" data-id="sim">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">📱 日本SIM / WiFi 租借</div>
-            <div class="check-desc">IIJmio / 楽天モバイル 觀光SIM，或 Wi-Ho 分享器</div>
-          </div>
-        </label>
-        <label class="check-item" data-id="currency">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">💴 準備日圓現金</div>
-            <div class="check-desc">許多溫泉和小店只收現金。建議帶 ¥30,000 現鈔</div>
-          </div>
-        </label>
-        <label class="check-item" data-id="insurance">
-          <input type="checkbox" />
-          <div class="check-content">
-            <div class="check-title">🏥 旅遊保險</div>
-            <div class="check-desc">台灣可用信用卡附贈旅平險，確認是否已涵蓋</div>
-          </div>
-        </label>
-      </div>
-    </div>
-
+    {groups.map(g => (
+      <section class="card">
+        <h2>{g.title}</h2>
+        <ul class="todo">
+          {g.items.map(i => (
+            <li>
+              <label>
+                <input type="checkbox" data-id={i.id} />
+                <span>
+                  <span class="todo-text">{i.text}</span>
+                  {i.note && <small>{i.note}</small>}
+                  {i.links && (
+                    <small class="shop-links">
+                      {i.links.map(([name, href]) => <a href={href} target="_blank" rel="noopener">在 {name} 搜尋</a>)}
+                    </small>
+                  )}
+                </span>
+              </label>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
   </main>
 
   <footer class="footer">
-    <a href="/" style="color:var(--brand);">← 回總覽</a>
+    <a href="/">回總覽</a>
   </footer>
 </Base>
 
-<style>
-  .checklist { display: flex; flex-direction: column; gap: 0.75rem; }
-
-  .check-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.875rem;
-    background: var(--bg);
-    border-radius: 0.75rem;
-    cursor: pointer;
-    transition: background 0.15s;
-    border: 2px solid transparent;
-  }
-  .check-item:hover { background: #f3f4f6; }
-  .check-item.checked {
-    background: #ecfdf5;
-    border-color: var(--accent-green);
-  }
-
-  .check-item input[type="checkbox"] { display: none; }
-
-  .check-item::before {
-    content: '○';
-    font-size: 1.25rem;
-    color: var(--border);
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-    transition: all 0.2s;
-  }
-  .check-item.checked::before {
-    content: '✅';
-    color: var(--accent-green);
-  }
-
-  .check-content { flex: 1; }
-  .check-title { font-weight: 600; font-size: 0.95rem; }
-  .check-desc {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    margin-top: 0.2rem;
-    line-height: 1.5;
-  }
-  .check-desc a {
-    color: var(--brand);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .check-desc a:hover { text-decoration: underline; }
-
-  .check-item.checked .check-title { text-decoration: line-through; color: var(--text-muted); }
-
-  .check-badge {
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 0.2rem 0.5rem;
-    border-radius: 999px;
-    flex-shrink: 0;
-    align-self: flex-start;
-  }
-  .badge-must { background: #fee2e2; color: #991b1b; }
-  .badge-recommend { background: #fef3c7; color: #92400e; }
-  .badge-ok { background: #d1fae5; color: #065f46; }
+<style is:global>
+  .todo { list-style: none; border-top: 1px solid var(--line); }
+  .todo li { border-bottom: 1px solid var(--line); }
+  .todo label { display: flex; gap: 0.75rem; padding: 0.8rem 0.25rem; cursor: pointer; align-items: flex-start; }
+  .todo input { width: 1.25rem; height: 1.25rem; margin-top: 0.2rem; accent-color: var(--teal); flex-shrink: 0; }
+  .todo small { display: block; color: var(--muted); font-size: 0.85rem; max-width: 60ch; }
+  .todo input:checked + span .todo-text { text-decoration: line-through; color: var(--muted); }
+  .shop-links { display: flex !important; gap: 1rem; margin-top: 0.35rem; }
+  .shop-links a { color: var(--teal-dark); font-weight: 500; }
 </style>
 
 <script>
-  const STORAGE_KEY = 'kumamoto-tickets';
-
-  function loadState() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
-    catch { return {}; }
-  }
-
-  function saveState(state) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }
-
-  function updateProgress() {
-    const items = document.querySelectorAll('.check-item');
-    const checked = document.querySelectorAll('.check-item.checked');
-    const pct = items.length ? (checked.length / items.length) * 100 : 0;
-    document.getElementById('progress-bar').style.width = pct + '%';
-    document.getElementById('progress-text').textContent = `${checked.length} / ${items.length}`;
-  }
-
-  const state = loadState();
-
-  document.querySelectorAll('.check-item').forEach(item => {
-    const id = item.dataset.id;
-    if (state[id]) item.classList.add('checked');
-
-    item.addEventListener('click', () => {
-      item.classList.toggle('checked');
-      state[id] = item.classList.contains('checked');
-      saveState(state);
-      updateProgress();
-    });
+  const KEY = 'busan-tickets';
+  const boxes = Array.from(document.querySelectorAll<HTMLInputElement>('.todo input'));
+  const done = document.getElementById('done')!;
+  const saved: Record<string, boolean> = JSON.parse(localStorage.getItem(KEY) || '{}');
+  const update = () => {
+    done.textContent = String(boxes.filter(b => b.checked).length);
+    localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(boxes.map(b => [b.dataset.id, b.checked]))));
+  };
+  boxes.forEach(b => {
+    b.checked = !!saved[b.dataset.id!];
+    b.addEventListener('change', update);
   });
-
-  document.getElementById('reset-btn').addEventListener('click', () => {
-    if (!confirm('重置所有勾選？')) return;
-    document.querySelectorAll('.check-item').forEach(i => i.classList.remove('checked'));
-    localStorage.removeItem(STORAGE_KEY);
-    updateProgress();
+  document.getElementById('reset')!.addEventListener('click', () => {
+    boxes.forEach(b => (b.checked = false));
+    update();
   });
-
-  updateProgress();
+  done.textContent = String(boxes.filter(b => b.checked).length);
 </script>

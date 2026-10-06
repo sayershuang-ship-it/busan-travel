@@ -6,29 +6,14 @@ const routesJson = JSON.stringify(trip.dailyRoutes);
 const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
 ---
 
-<Base title="景點地圖 | 熊本旅行">
+<Base title="景點地圖 | 釜山旅行">
 
   <header class="hero" style="padding:2rem 1rem;">
     <a href="/" style="color:white;opacity:0.7;text-decoration:none;font-size:0.85rem;">← 回總覽</a>
-    <h1 style="margin-top:0.5rem;">🗺️ 熊本全境地圖</h1>
+    <h1 style="margin-top:0.5rem;">🗺️ 釜山全境地圖</h1>
     <p class="subtitle">OpenStreetMap · 全景點標記 + 每日路線</p>
   </header>
 
-  <nav class="nav">
-    <a href="/">📋 總覽</a>
-    <a href="/day1">Day 1</a>
-    <a href="/day2">Day 2</a>
-    <a href="/day3">Day 3</a>
-    <a href="/day4">Day 4</a>
-    <a href="/planner">🧭 規劃</a>
-    <a href="/map" class="active">🗺️ 地圖</a>
-    <a href="/weather">🌤️ 天氣</a>
-    <a href="/tickets">🎫 預訂</a>
-    <a href="/expenses">💰 花費</a>
-    <a href="/calendar">📅 日曆</a>
-    <a href="/import">📥 匯入</a>
-    <a href="/planb">🆘 應變</a>
-  </nav>
 
   <main class="container" style="padding-top:1.5rem;">
 
@@ -62,7 +47,7 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
       <div style="display:flex;flex-direction:column;gap:0.5rem;">
         {trip.days.map(d => {
           const stops = d.activities.filter(a => a.type !== 'hotel' && a.type !== 'free').slice(0, 4);
-          const gmUrl = `https://www.google.com/maps/dir/${stops.map(a => encodeURIComponent(a.title + ' 熊本')).join('/')}`;
+          const gmUrl = `https://www.google.com/maps/dir/${stops.map(a => encodeURIComponent(a.title + ' 釜山')).join('/')}`;
           return (
             <div style="background:var(--bg);border-radius:0.75rem;padding:0.75rem;">
               <strong style="font-size:0.85rem;">Day {d.day}: {d.title}</strong>

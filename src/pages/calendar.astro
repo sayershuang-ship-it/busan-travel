@@ -4,28 +4,13 @@ import { trip } from '../data/itinerary';
 const tripJson = JSON.stringify(trip);
 ---
 
-<Base title="匯出日曆 | 熊本旅行">
+<Base title="匯出日曆 | 釜山旅行">
   <header class="hero" style="padding:2rem 1rem;">
     <a href="/" style="color:white;opacity:0.7;text-decoration:none;font-size:0.85rem;">← 回總覽</a>
     <h1 style="margin-top:0.5rem;">📅 匯出日曆</h1>
     <p class="subtitle">將行程匯入 Google Calendar / Apple Calendar</p>
   </header>
 
-  <nav class="nav">
-    <a href="/">📋 總覽</a>
-    <a href="/day1">Day 1</a>
-    <a href="/day2">Day 2</a>
-    <a href="/day3">Day 3</a>
-    <a href="/day4">Day 4</a>
-    <a href="/planner">🧭 規劃</a>
-    <a href="/map">🗺️ 地圖</a>
-    <a href="/weather">🌤️ 天氣</a>
-    <a href="/tickets">🎫 預訂</a>
-    <a href="/expenses">💰 花費</a>
-    <a href="/calendar" class="active">📅 日曆</a>
-    <a href="/import">📥 匯入</a>
-    <a href="/planb">🆘 應變</a>
-  </nav>
 
   <main class="container" style="padding-top:1.5rem;">
 
@@ -145,7 +130,7 @@ const tripJson = JSON.stringify(trip);
     const lines = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//TravelPlanner//kumamoto-travel//ZH',
+      'PRODID:-//TravelPlanner//busan-travel//ZH',
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
       `X-WR-CALNAME:${trip.title}`,
@@ -172,7 +157,7 @@ const tripJson = JSON.stringify(trip);
         lines.push(`DTEND;TZID=${trip.timezone}:${ymd}T${fmt(endTime)}00`);
         lines.push(`SUMMARY:${icsEscape(act.icon + ' ' + act.title)}`);
         lines.push(`DESCRIPTION:${icsEscape(act.desc + (act.budget ? ' (¥' + act.budget.toLocaleString() + ')' : ''))}`);
-        lines.push(`UID:${ymd}-${i}@kumamoto-travel`);
+        lines.push(`UID:${ymd}-${i}@busan-travel`);
         lines.push('END:VEVENT');
       });
     });
@@ -210,7 +195,7 @@ const tripJson = JSON.stringify(trip);
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'kumamoto-travel.ics';
+    a.download = 'busan-travel.ics';
     a.click();
     URL.revokeObjectURL(url);
   });

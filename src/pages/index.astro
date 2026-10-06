@@ -1,224 +1,149 @@
 ---
 import Base from '../layouts/Base.astro';
-import { trip } from '../data/itinerary';
+import Skyline from '../components/Skyline.astro';
+import { trip, foods } from '../data/itinerary';
+import { checklist } from '../data/checklist';
+const total = checklist.reduce((n, g) => n + g.items.length, 0);
 
 const totalActual = trip.budgetSummary.reduce((s, i) => s + i.amount, 0);
+const estTwd = Math.round(totalActual / trip.krwPerTwd);
+const leftTwd = trip.budget - estTwd;
+const overBudget = leftTwd < 0;
 const allLocationsJson = JSON.stringify(trip.locations);
+const tools = [
+  { href: '/tickets', title: '預訂資料', desc: '航班、住宿、退稅提醒' },
+  { href: '/planner', title: '規劃工作台', desc: '拖曳排序、編輯活動、即時預算' },
+  { href: '/planb', title: '應變中心', desc: '雨天替代方案、延誤應對' },
+  { href: '/import', title: '資料匯入', desc: '貼上確認信解析、備份還原' },
+];
 ---
 
-<Base title="熊本四天三夜自由行">
+<Base title="釜山三日自由行">
   <header class="hero">
-    <h1>🗾 {trip.title}</h1>
-    <p class="subtitle">{trip.subtitle}</p>
-    <div class="meta">
-      <span>📅 {trip.dates}</span>
-      <span>👥 {trip.travelers}人</span>
-      <span>💰 ¥{trip.budget.toLocaleString()} 預算</span>
+    <div class="hero-inner">
+      <div class="hangul" lang="ko">부산</div>
+      <h1>{trip.title}</h1>
+      <p class="subtitle">{trip.subtitle}</p>
+      <div class="meta">
+        <span>{trip.dates}</span>
+        <span>{trip.travelers} 人</span>
+        <span>每人預算 {trip.budgetPerPerson.toLocaleString()} {trip.budgetCurrency}</span>
+      </div>
+      <Skyline />
     </div>
   </header>
 
-  <nav class="nav">
-    <a href="/" class="active">📋 總覽</a>
-    <a href="/day1">Day 1</a>
-    <a href="/day2">Day 2</a>
-    <a href="/day3">Day 3</a>
-    <a href="/day4">Day 4</a>
-    <a href="/planner">🧭 規劃</a>
-    <a href="/map">🗺️ 地圖</a>
-    <a href="/weather">🌤️ 天氣</a>
-    <a href="/tickets">🎫 預訂</a>
-    <a href="/expenses">💰 花費</a>
-    <a href="/calendar">📅 日曆</a>
-    <a href="/import">📥 匯入</a>
-    <a href="/planb">🆘 應變</a>
-  </nav>
-
-  <main class="container" style="padding-top: 1.5rem;">
-    <!-- PWA Install Banner -->
+  <main class="container" style="padding-top:1.5rem;">
     <div class="pwa-banner" id="pwa-install">
-      📱 安裝到主畫面，離線也能看行程
+      安裝到主畫面，離線也能看行程
       <br /><button id="install-btn">安裝 App</button>
     </div>
 
-    <!-- Weather -->
+    <div class="facts">
+      <div><b>{trip.days.length} 天</b><span>06:10 抵達，22:00 返程</span></div>
+      <div><b>3 家</b><span>豬肉湯飯，一天一家</span></div>
+      <div><b>₩{totalActual.toLocaleString()}</b><span>預估總花費，約 {estTwd.toLocaleString()} 元台幣</span></div>
+      <div><b class={overBudget ? 'over' : ''}>{overBudget ? '超出' : '剩'} {Math.abs(leftTwd).toLocaleString()}</b><span>對照預算 {trip.budget.toLocaleString()} 元（每人 {trip.budgetPerPerson.toLocaleString()}），匯率抓 1:{trip.krwPerTwd}</span></div>
+    </div>
+
+    <a class="note" href="/prepare" style="display:block;text-decoration:none;color:inherit;">
+      <strong>出發前待辦：<span id="prep-done">0</span> / {total}</strong>
+      證件、K-ETA、好市多會員卡、轉接頭、退稅用品，點進去逐項確認
+    </a>
+
+    <div class="note">
+      <strong>{trip.hotel.name}</strong>
+      {trip.hotel.note}
+    </div>
+
     <div class="weather-banner">
-      <div class="icon">🌤️</div>
+      <div class="icon" aria-hidden="true">🍂</div>
       <div>
         <strong>{trip.weather.condition}</strong><br />
-        {trip.weather.temp} · {trip.weather.tip}
+        {trip.weather.temp}・{trip.weather.tip}
       </div>
     </div>
 
-    <!-- Planning tools -->
-    <div class="card">
-      <h2 style="margin-bottom:0.75rem;">🛠️ 旅遊規劃工具</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;">
-        <a href="/planner" style="text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:0.75rem;padding:1rem;display:block;">
-          <div style="font-size:1.4rem;">🧭</div>
-          <div style="font-weight:700;">規劃工作台</div>
-          <div style="font-size:0.8rem;color:var(--text-muted);">拖曳排序、編輯活動、即時預算</div>
+    <h2 style="margin:1.5rem 0 0.75rem;">每日行程</h2>
+    <ul class="day-list">
+      {trip.days.map(day => (
+        <li>
+          <a href={`/day${day.day}`}>
+            <span class="d">{day.day}</span>
+            <span class="t">{day.title}</span>
+            <span class="b">₩{day.dayBudget.toLocaleString()}</span>
+            <span class="s">{day.date}・{day.subtitle}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <h2 style="margin:2rem 0 0.75rem;">要吃的</h2>
+    <div class="food-grid">
+      {foods.map(f => (
+        <a class="food-card" href={f.gmap} target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+          <strong>{f.name}</strong>
+          <div style="font-size:0.9rem;color:var(--muted);">{f.desc}</div>
+          <div style="font-size:0.85rem;margin-top:0.25rem;">{f.price}</div>
         </a>
-        <a href="/import" style="text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:0.75rem;padding:1rem;display:block;">
-          <div style="font-size:1.4rem;">📥</div>
-          <div style="font-weight:700;">資料匯入</div>
-          <div style="font-size:0.8rem;color:var(--text-muted);">貼上確認信解析、訂單彙整、備份還原</div>
-        </a>
-        <a href="/planb" style="text-decoration:none;color:inherit;border:1px solid var(--border);border-radius:0.75rem;padding:1rem;display:block;">
-          <div style="font-size:1.4rem;">🆘</div>
-          <div style="font-weight:700;">應變中心</div>
-          <div style="font-size:0.8rem;color:var(--text-muted);">雨天替代方案、延誤應對、緊急資訊</div>
-        </a>
-        <a href="/new" style="text-decoration:none;color:inherit;border:1px dashed var(--brand);border-radius:0.75rem;padding:1rem;display:block;">
-          <div style="font-size:1.4rem;">🆕</div>
-          <div style="font-weight:700;">開新旅程</div>
-          <div style="font-size:0.8rem;color:var(--text-muted);">輸入地點、日期、天數，規劃下一趟</div>
-        </a>
-      </div>
+      ))}
     </div>
 
-    <!-- Quick Stats -->
+    <h2 style="margin:2rem 0 0.75rem;">預算（韓元）</h2>
     <div class="card">
-      <h2 style="margin-bottom:0.75rem;">📊 快速統計</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.75rem;">
-        <div style="background:var(--bg);border-radius:0.75rem;padding:1rem;text-align:center;">
-          <div style="font-size:1.5rem;font-weight:700;">4天</div>
-          <div style="font-size:0.8rem;color:var(--text-muted);">行程天數</div>
-        </div>
-        <div style="background:var(--bg);border-radius:0.75rem;padding:1rem;text-align:center;">
-          <div style="font-size:1.5rem;font-weight:700;">11</div>
-          <div style="font-size:0.8rem;color:var(--text-muted);">走訪景點</div>
-        </div>
-        <div style="background:var(--bg);border-radius:0.75rem;padding:1rem;text-align:center;">
-          <div style="font-size:1.5rem;font-weight:700;">3回</div>
-          <div style="font-size:0.8rem;color:var(--text-muted);">溫泉入浴</div>
-        </div>
-        <div style="background:var(--bg);border-radius:0.75rem;padding:1rem;text-align:center;">
-          <div style="font-size:1.5rem;font-weight:700;">¥{totalActual.toLocaleString()}</div>
-          <div style="font-size:0.8rem;color:var(--text-muted);">預估總花費</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Budget Overview -->
-    <div class="card">
-      <h2 style="margin-bottom:0.75rem;">💰 預算分配</h2>
-      <div style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:1rem;">
-        {trip.budgetSummary.map(i => (
-          <span class="tag tag-{i.label === '住宿' ? 'hotel' : i.label === '餐飲' ? 'food' : i.label === '交通' ? 'transport' : i.label === '門票' ? 'ticket' : i.label === '溫泉' ? 'onsen' : 'shopping'}">{i.icon} {i.label}</span>
-        ))}
-      </div>
       <table class="budget-table">
         <thead><tr><th>項目</th><th>金額</th><th>備註</th></tr></thead>
         <tbody>
           {trip.budgetSummary.map(i => (
-            <tr><td>{i.icon} {i.label}</td><td><strong>¥{i.amount.toLocaleString()}</strong></td><td style="color:var(--text-muted);font-size:0.85rem;">{i.note}</td></tr>
+            <tr><td>{i.label}</td><td><strong>₩{i.amount.toLocaleString()}</strong></td><td style="color:var(--muted);font-size:0.85rem;">{i.note}</td></tr>
           ))}
-          <tr class="total-row"><td>總計</td><td><strong>¥{totalActual.toLocaleString()}</strong></td><td style="color:var(--accent-green);font-size:0.85rem;">✅ 預算內</td></tr>
+          <tr class="total-row"><td>總計</td><td>₩{totalActual.toLocaleString()}</td><td style="color:var(--muted);font-size:0.85rem;">預估</td></tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Daily Summary -->
-    <h2 style="margin:1.5rem 0 1rem;">📋 每日行程</h2>
-    {trip.days.map(day => (
-      <a href={`/day${day.day}`} style="text-decoration:none;color:inherit;">
-        <div class="card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-          <div class="day-header">
-            <div class="day-num">{day.day}</div>
-            <div>
-              <div style="font-size:0.85rem;color:var(--text-muted);">{day.date}</div>
-              <div class="day-title">{day.title}</div>
-              <div class="day-subtitle">{day.subtitle}</div>
-            </div>
-            <div style="margin-left:auto;text-align:right;">
-              <div style="font-weight:700;color:var(--brand);">¥{day.dayBudget.toLocaleString()}</div>
-              <div style="font-size:0.75rem;color:var(--text-muted);">{day.activities.length} 個活動</div>
-            </div>
-          </div>
-          <div style="display:flex;gap:0.25rem;flex-wrap:wrap;">
-            {day.activities.map(a => (
-              <span class="tag tag-{a.type}">{a.icon} {a.title.slice(0,8)}</span>
-            ))}
-          </div>
-        </div>
-      </a>
-    ))}
-
-    <!-- Photo highlights -->
-    <div class="card" style="margin-top:1rem;">
-      <h2 style="margin-bottom:0.75rem;">📸 景點風光</h2>
-      <div id="photo-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.75rem;">
-        {trip.locations.filter(l => l.wiki).map(loc => (
-          <div class="photo-card" data-wiki={loc.wiki}>
-            <div class="photo-placeholder" style="width:100%;height:120px;background:var(--bg);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.8rem;">
-              載入中...
-            </div>
-            <div style="font-size:0.85rem;font-weight:600;margin-top:0.4rem;">{loc.name}</div>
-          </div>
-        ))}
-      </div>
-      <p style="font-size:0.7rem;color:var(--text-muted);margin-top:0.75rem;">
-        Photos: Wikimedia Commons (CC BY-SA)
-      </p>
-    </div>
-
-    <!-- Map Preview -->
-    <div class="card" style="margin-top:1rem;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
-        <h2>🗺️ 熊本全境地圖</h2>
-        <a href="/map" style="font-size:0.85rem;color:var(--brand);text-decoration:none;font-weight:600;">展開 ↗</a>
-      </div>
+    <h2 style="margin:2rem 0 0.75rem;">地圖</h2>
+    <div class="card">
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <div id="index-map" style="width:100%;height:360px;border-radius:0.75rem;"></div>
+      <div id="index-map" style="width:100%;height:340px;border-radius:6px;"></div>
     </div>
+
+    <h2 style="margin:2rem 0 0.75rem;">工具</h2>
+    <ul class="link-list">
+      {tools.map(t => (
+        <li><a href={t.href}><span>{t.title}<small>{t.desc}</small></span></a></li>
+      ))}
+    </ul>
   </main>
 
   <footer class="footer">
-    <p>Powered by Travel Planner Skill · Astro + Cloudflare Pages</p>
-    <p style="font-size:0.75rem;">地圖資料 © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" style="color:var(--brand);">OpenStreetMap</a> contributors</p>
+    <p>地圖資料 © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</p>
   </footer>
 </Base>
 
 <script define:vars={{ allLocationsJson }}>
+  try {
+    const s = JSON.parse(localStorage.getItem('busan-prepare') || '{}');
+    document.getElementById('prep-done').textContent = Object.values(s).filter(Boolean).length;
+  } catch {}
   const locations = JSON.parse(allLocationsJson);
+  const css = getComputedStyle(document.documentElement);
+  const c = n => css.getPropertyValue(n).trim();
   const script = document.createElement('script');
   script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
   script.onload = () => {
     const L = window.L;
-    const map = L.map('index-map').setView([32.8031, 130.7079], 13);
+    const map = L.map('index-map').setView([35.13, 129.08], 11);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 19,
     }).addTo(map);
+    const colors = { airport: c('--sky'), hotel: c('--teal'), food: c('--red'), shopping: c('--yellow'), outdoor: c('--teal'), market: c('--red') };
     locations.forEach(loc => {
       L.circleMarker([loc.lat, loc.lng], {
-        radius: 8, fillColor: '#d4342c', color: '#fff', weight: 2, fillOpacity: 0.9,
+        radius: 8, fillColor: colors[loc.icon] || c('--teal'), color: '#fff', weight: 2, fillOpacity: 0.9,
       }).addTo(map).bindPopup(`<strong>${loc.name}</strong>`);
     });
   };
   document.head.appendChild(script);
-
-  async function fetchWikiPhoto(searchTerm) {
-    if (!searchTerm) return null;
-    try {
-      const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(searchTerm)}&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=400&format=json&origin=*`;
-      const res = await fetch(url);
-      const data = await res.json();
-      const pages = data.query?.pages;
-      if (!pages) return null;
-      const page = Object.values(pages)[0];
-      return page?.imageinfo?.[0]?.thumburl || null;
-    } catch { return null; }
-  }
-
-  document.querySelectorAll('.photo-card[data-wiki]').forEach(async el => {
-    const term = el.dataset.wiki;
-    const url = await fetchWikiPhoto(term);
-    const placeholder = el.querySelector('.photo-placeholder');
-    if (url) {
-      placeholder.outerHTML = `<img src="${url}" alt="${term}" style="width:100%;height:120px;object-fit:cover;border-radius:0.75rem;" loading="lazy" />`;
-    } else {
-      placeholder.textContent = '📷';
-    }
-  });
 </script>

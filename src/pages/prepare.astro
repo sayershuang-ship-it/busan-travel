@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import Skyline from '../components/Skyline.astro';
+import { checklist } from '../data/checklist';
+const total = checklist.reduce((n, g) => n + g.items.length, 0);
+---
+
+<Base title="出發前待辦">
+  <header class="hero compact">
+    <div class="hero-inner">
+      <a href="/" class="back">回總覽</a>
+      <h1>出發前待辦</h1>
+      <p class="subtitle">證件、訂位、行李與採買用品，依時間排好</p>
+      <Skyline />
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:1.25rem;">
+    <div class="note">
+      <strong>已完成 <span id="done">0</span> / {total}</strong>
+      勾選狀態只存在這支手機的瀏覽器。標「確認」的項目規定可能變動，請以官方網站為準。
+      <div class="toolbar" style="margin:0.75rem 0 0;">
+        <button class="btn secondary" id="reset" type="button">全部取消勾選</button>
+      </div>
+    </div>
+
+    {checklist.map(g => (
+      <section class="card" aria-labelledby={`g-${g.id}`}>
+        <h2 id={`g-${g.id}`}>{g.title}</h2>
+        <ul class="todo">
+          {g.items.map(i => (
+            <li>
+              <label>
+                <input type="checkbox" data-id={i.id} />
+                <span>
+                  <span class="todo-text">{i.text}</span>
+                  {i.note && <small>{i.note}</small>}
+                </span>
+              </label>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </main>
+</Base>
+
+<style is:global>
+  .todo { list-style: none; border-top: 1px solid var(--line); }
+  .todo li { border-bottom: 1px solid var(--line); }
+  .todo label { display: flex; gap: 0.75rem; padding: 0.8rem 0.25rem; cursor: pointer; align-items: flex-start; }
+  .todo input { width: 1.25rem; height: 1.25rem; margin-top: 0.2rem; accent-color: var(--teal); flex-shrink: 0; }
+  .todo small { display: block; color: var(--muted); font-size: 0.85rem; max-width: 60ch; }
+  .todo input:checked + span .todo-text { text-decoration: line-through; color: var(--muted); }
+</style>
+
+<script>
+  const KEY = 'busan-prepare';
+  const boxes = Array.from(document.querySelectorAll<HTMLInputElement>('.todo input'));
+  const done = document.getElementById('done')!;
+  const saved: Record<string, boolean> = JSON.parse(localStorage.getItem(KEY) || '{}');
+  const update = () => {
+    done.textContent = String(boxes.filter(b => b.checked).length);
+    localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(boxes.map(b => [b.dataset.id, b.checked]))));
+  };
+  boxes.forEach(b => {
+    b.checked = !!saved[b.dataset.id!];
+    b.addEventListener('change', update);
+  });
+  document.getElementById('reset')!.addEventListener('click', () => {
+    boxes.forEach(b => (b.checked = false));
+    update();
+  });
+  done.textContent = String(boxes.filter(b => b.checked).length);
+</script>

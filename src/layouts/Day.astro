@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import Skyline from '../components/Skyline.astro';
 import { trip } from '../data/itinerary';
 const { day } = Astro.props;
 const d = trip.days.find(x => x.day === day);
@@ -11,114 +12,98 @@ const dayLocations = JSON.stringify(
     )
   )
 );
+const mapCenter = JSON.stringify([d.lat, d.lng]);
+const typeLabel = { food: '餐飲', shopping: '購物', transport: '交通', flight: '航班', hotel: '住宿', outdoor: '散步' };
+const byType = [...new Set(d.activities.map(a => a.type))]
+  .map(type => ({ type, total: d.activities.filter(a => a.type === type).reduce((s, a) => s + a.budget, 0) }))
+  .filter(x => x.total > 0);
 ---
 
-<Base title={`Day ${d.day}: ${d.title} | 熊本旅行`}>
-  <header class="hero" style="padding:2rem 1rem;">
-    <a href="/" style="color:white;opacity:0.7;text-decoration:none;font-size:0.85rem;">← 回總覽</a>
-    <h1 style="margin-top:0.5rem;">Day {d.day} · {d.date}</h1>
-    <p class="subtitle">{d.title}</p>
-    <p style="font-size:0.85rem;opacity:0.8;">{d.subtitle}</p>
+<Base title={`Day ${d.day}：${d.title}`}>
+  <header class="hero compact">
+    <div class="hero-inner">
+      <a href="/" class="back">回總覽</a>
+      <h1>Day {d.day} · {d.date}</h1>
+      <p class="subtitle">{d.title}</p>
+      <Skyline />
+    </div>
   </header>
 
-  <nav class="nav">
-    <a href="/">📋 總覽</a>
-    <a href="/day1" class={day===1?'active':''}>Day 1</a>
-    <a href="/day2" class={day===2?'active':''}>Day 2</a>
-    <a href="/day3" class={day===3?'active':''}>Day 3</a>
-    <a href="/day4" class={day===4?'active':''}>Day 4</a>
-    <a href="/planner">🧭 規劃</a>
-    <a href="/map">🗺️ 地圖</a>
-    <a href="/weather">🌤️ 天氣</a>
-    <a href="/tickets">🎫 預訂</a>
-    <a href="/expenses">💰 花費</a>
-    <a href="/calendar">📅 日曆</a>
-    <a href="/import">📥 匯入</a>
-    <a href="/planb">🆘 應變</a>
-  </nav>
+  <main class="container">
+    <div class="chips" aria-label="切換天數">
+      {trip.days.map(x => (
+        <a href={`/day${x.day}`} aria-current={x.day === d.day ? 'page' : undefined}>Day {x.day}</a>
+      ))}
+    </div>
 
-  <main class="container" style="padding-top:1.5rem;">
-    <!-- Day Map -->
-    <div class="card">
-      <div class="day-header">
-        <div class="day-num">{d.day}</div>
-        <div>
-          <div class="day-title">{d.title}</div>
-          <div class="day-subtitle">{d.date} · 預算 ¥{d.dayBudget.toLocaleString()}</div>
-        </div>
-        <a href={`/map?day=${d.day}`} style="margin-left:auto;font-size:0.8rem;color:var(--brand);text-decoration:none;font-weight:600;">
-          展開地圖 ↗
-        </a>
+    <section class="card">
+      <h2>時間軸</h2>
+      <p class="desc-line" style="color:var(--muted);font-size:0.9rem;margin-bottom:1.25rem;">{d.subtitle}</p>
+      <ol class="timeline">
+        {d.activities.map(a => (
+          <li class={`activity t-${a.type}`}>
+            <div class="time">{a.time}</div>
+            <div class="stop" aria-hidden="true"></div>
+            <div>
+              <div class="title">{a.icon} {a.title}{a.ko && <span class="ko" lang="ko">{a.ko}</span>}</div>
+              <div class="desc">{a.desc}</div>
+              <div class="row">
+                <span class={`budget ${a.budget === 0 ? 'free' : ''}`}>{a.budget === 0 ? '不另計' : `₩${a.budget.toLocaleString()}`}</span>
+                {a.gmap && <a class="gmap" href={a.gmap} target="_blank" rel="noopener">開啟地圖</a>}
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="card">
+      <div class="day-header" style="margin-bottom:0.75rem;">
+        <h2>路線</h2>
+        <a href={`/map?day=${d.day}`} style="margin-left:auto;font-size:0.85rem;font-weight:600;">展開地圖</a>
       </div>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <div id={`day-map-${d.day}`} style="width:100%;height:320px;border-radius:0.75rem;"></div>
-    </div>
+      <div id={`day-map-${d.day}`} style="width:100%;height:300px;border-radius:6px;"></div>
+    </section>
 
-    <!-- Timeline -->
-    <div class="card">
-      <h2 style="margin-bottom:1rem;">⏰ 時間軸</h2>
-      <div class="timeline">
-        {d.activities.map(a => (
-          <div class="activity" data-wiki={a.wiki || ''}>
-            <div class="activity-icon">{a.icon}</div>
-            <div class="time">{a.time}</div>
-            <div class="title">{a.title}</div>
-            <div class="desc">{a.desc}</div>
-            <div class="budget {a.budget === 0 ? 'free' : ''}">
-              {a.budget === 0 ? '🎫 免費' : `¥${a.budget.toLocaleString()}`}
-            </div>
-            <div class="activity-photo" style="display:none;"></div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Budget breakdown -->
-    <div class="card">
-      <h2 style="margin-bottom:0.75rem;">💰 本日花費</h2>
+    <section class="card">
+      <h2>本日花費（韓元）</h2>
       <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
-        {[...new Set(d.activities.map(a => a.type))].map(type => {
-          const total = d.activities.filter(a => a.type === type).reduce((s, a) => s + a.budget, 0);
-          return <span class="tag tag-{type}">{type} ¥{total.toLocaleString()}</span>;
-        })}
+        {byType.map(x => <span class={`tag tag-${x.type}`}>{typeLabel[x.type] ?? x.type} ₩{x.total.toLocaleString()}</span>)}
       </div>
       <table class="budget-table">
-        <thead><tr><th>時間</th><th>活動</th><th>金額</th></tr></thead>
+        <thead><tr><th>時間</th><th>項目</th><th>金額</th></tr></thead>
         <tbody>
-          {d.activities.map(a => (
+          {d.activities.filter(a => a.budget > 0).map(a => (
             <tr>
               <td style="white-space:nowrap;">{a.time}</td>
-              <td>{a.icon} {a.title}</td>
-              <td style="text-align:right;{a.budget===0?'color:var(--accent-green);':''}">
-                {a.budget === 0 ? '免費' : `¥${a.budget.toLocaleString()}`}
-              </td>
+              <td>{a.title}</td>
+              <td style="text-align:right;">₩{a.budget.toLocaleString()}</td>
             </tr>
           ))}
-          <tr class="total-row"><td></td><td>本日合計</td><td style="text-align:right;">¥{d.dayBudget.toLocaleString()}</td></tr>
+          <tr class="total-row"><td></td><td>本日合計</td><td style="text-align:right;">₩{d.dayBudget.toLocaleString()}</td></tr>
         </tbody>
       </table>
-    </div>
+    </section>
   </main>
 
   <footer class="footer">
-    <a href="/" style="color:var(--brand);">← 回總覽</a>
+    <a href="/">回總覽</a>
   </footer>
 </Base>
 
-<script define:vars={{ routeCoords, dayLocations, day }}>
+<script define:vars={{ routeCoords, dayLocations, day, mapCenter }}>
   const coords = JSON.parse(routeCoords);
   const locs = JSON.parse(dayLocations);
   const mapId = `day-map-${day}`;
+  const css = getComputedStyle(document.documentElement);
+  const teal = css.getPropertyValue('--teal').trim() || '#1e7b76';
+  const red = css.getPropertyValue('--red').trim() || '#b93a32';
 
   function initDayMap() {
     const L = window.L;
     if (!L || !document.getElementById(mapId)) return;
-
-    const center = coords.length > 0
-      ? [coords[Math.floor(coords.length / 2)][0], coords[Math.floor(coords.length / 2)][1]]
-      : [32.8031, 130.7079];
-
-    const map = L.map(mapId).setView(center, 14);
+    const map = L.map(mapId).setView(JSON.parse(mapCenter), 14);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -126,17 +111,13 @@ const dayLocations = JSON.stringify(
     }).addTo(map);
 
     if (coords.length >= 2) {
-      L.polyline(coords, { color: '#d4342c', weight: 4, opacity: 0.85 }).addTo(map);
-      L.circleMarker(coords[0], { radius: 9, fillColor: '#10b981', color: '#fff', weight: 2, fillOpacity: 1 })
-        .addTo(map).bindPopup('出發');
-      L.circleMarker(coords[coords.length - 1], { radius: 9, fillColor: '#6b7280', color: '#fff', weight: 2, fillOpacity: 1 })
-        .addTo(map).bindPopup('結束');
+      L.polyline(coords, { color: teal, weight: 4, opacity: 0.85 }).addTo(map);
       map.fitBounds(coords, { padding: [32, 32] });
     }
 
     locs.forEach(loc => {
       L.circleMarker([loc.lat, loc.lng], {
-        radius: 7, fillColor: '#d4342c', color: '#fff', weight: 2, fillOpacity: 0.9,
+        radius: 7, fillColor: red, color: '#fff', weight: 2, fillOpacity: 0.9,
       }).addTo(map).bindPopup(`<strong>${loc.name}</strong>`);
     });
   }
@@ -145,27 +126,4 @@ const dayLocations = JSON.stringify(
   script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
   script.onload = initDayMap;
   document.head.appendChild(script);
-
-  async function fetchWikiPhoto(searchTerm) {
-    if (!searchTerm) return null;
-    try {
-      const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(searchTerm)}&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=400&format=json&origin=*`;
-      const res = await fetch(url);
-      const data = await res.json();
-      const pages = data.query?.pages;
-      if (!pages) return null;
-      const page = Object.values(pages)[0];
-      return page?.imageinfo?.[0]?.thumburl || null;
-    } catch { return null; }
-  }
-
-  document.querySelectorAll('.activity[data-wiki]').forEach(async el => {
-    const term = el.dataset.wiki;
-    if (!term) return;
-    const url = await fetchWikiPhoto(term);
-    if (!url) return;
-    const photoDiv = el.querySelector('.activity-photo');
-    photoDiv.innerHTML = `<img src="${url}" alt="${term}" style="width:100%;max-width:300px;border-radius:0.75rem;margin-top:0.5rem;" loading="lazy" />`;
-    photoDiv.style.display = 'block';
-  });
 </script>

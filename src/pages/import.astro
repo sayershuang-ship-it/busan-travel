@@ -10,21 +10,6 @@ const tripJson = JSON.stringify(trip);
     <p class="subtitle">貼上確認信自動解析，機票飯店門票一站管理</p>
   </header>
 
-  <nav class="nav">
-    <a href="/">📋 總覽</a>
-    <a href="/day1">Day 1</a>
-    <a href="/day2">Day 2</a>
-    <a href="/day3">Day 3</a>
-    <a href="/day4">Day 4</a>
-    <a href="/planner">🧭 規劃</a>
-    <a href="/map">🗺️ 地圖</a>
-    <a href="/weather">🌤️ 天氣</a>
-    <a href="/tickets">🎫 預訂</a>
-    <a href="/expenses">💰 花費</a>
-    <a href="/calendar">📅 日曆</a>
-    <a href="/import" class="active">📥 匯入</a>
-    <a href="/planb">🆘 應變</a>
-  </nav>
 
   <main class="container" style="padding-top:1.5rem;">
     <!-- Shared plan banner (shows when opened via share link) -->
@@ -257,7 +242,7 @@ const tripJson = JSON.stringify(trip);
   /* ---- backup / restore ---- */
   document.getElementById('backup-btn').addEventListener('click', () => {
     const backup = {
-      app: 'kumamoto-travel',
+      app: 'busan-travel',
       version: 1,
       exportedAt: new Date().toISOString(),
       plan: JSON.parse(localStorage.getItem(T.PLAN_KEY) || 'null'),
@@ -275,7 +260,7 @@ const tripJson = JSON.stringify(trip);
     try {
       const data = JSON.parse(await file.text());
       const restored = [];
-      if (data.app === 'kumamoto-travel') {
+      if (data.app === 'busan-travel') {
         if (data.plan?.days) { T.savePlan(data.plan.days); restored.push('自訂行程'); }
         if (data.meta) { T.saveMeta(data.meta); restored.push('旅程設定'); }
         if (Array.isArray(data.bookings)) { bookings = data.bookings; T.saveBookings(bookings); restored.push(`訂單 ${bookings.length} 筆`); }

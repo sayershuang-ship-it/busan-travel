@@ -1,4 +1,4 @@
-const CACHE = 'kumamoto-v6';
+const CACHE = 'busan-v1';
 const URLS = ['/', '/day1', '/day2', '/day3', '/day4', '/map', '/weather', '/tickets', '/expenses', '/calendar', '/planner', '/import', '/planb', '/new', '/js/trip-tools.js', '/manifest.json'];
 
 self.addEventListener('install', e => {

@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://kumamoto-travel.pages.dev',
+  site: 'https://busan-travel.pages.dev',
   output: 'static',
 });
