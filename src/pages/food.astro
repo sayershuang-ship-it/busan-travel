@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { foodAreas, foodNotes, foodPending, foodMeta } from '../data/food';
+const map = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+---
+
+<Base title="美食清單">
+  <PageHero title="美食清單" subtitle="依商圈整理，排進行程的店另標示" />
+
+  <main class="container" style="padding-top:1.25rem;">
+    <div class="note">
+      <strong>價格與營業時間來自網路資料</strong>
+      來源：{foodMeta.source}（{foodMeta.asOf}）。出發前請用 Naver Map 再確認，標「已排入」的店在每日行程裡。
+    </div>
+
+    {foodAreas.map(a => (
+      <details class="card guide-card" open={a.id === 'gwangan' ? true : undefined}>
+        <summary><h2>{a.title}（{a.shops.length}）</h2></summary>
+        <table class="budget-table food-table">
+          <tbody>
+            {a.shops.map(s => (
+              <tr>
+                <td>
+                  <a href={map(`${s.name} 釜山 ${a.title}`)} target="_blank" rel="noopener"><strong>{s.name}</strong></a>
+                  <div class="food-sub">{s.type}</div>
+                  {s.note && <div class="food-sub">{s.note}</div>}
+                </td>
+                <td class="food-meta">
+                  {s.hours && <div>{s.hours}</div>}
+                  {s.price && <div>{s.price}</div>}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+    ))}
+
+    <details class="card guide-card">
+      <summary><h2>補充備忘</h2></summary>
+      <ul class="guide-list">
+        {foodNotes.map(t => <li>{t}</li>)}
+      </ul>
+    </details>
+
+    <details class="card guide-card">
+      <summary><h2>待確認（先不列入）</h2></summary>
+      <ul class="guide-list">
+        {foodPending.map(t => <li>{t}</li>)}
+      </ul>
+    </details>
+  </main>
+
+  <footer class="footer"><a href="/">回總覽</a></footer>
+</Base>
+
+<style is:global>
+  .food-table { margin: 0 0 0.5rem; }
+  .food-table td { padding: 0.65rem 1.25rem; vertical-align: top; }
+  .food-sub { font-size: 0.8rem; color: var(--muted); }
+  .food-meta { font-size: 0.8rem; text-align: right; white-space: nowrap; }
+</style>

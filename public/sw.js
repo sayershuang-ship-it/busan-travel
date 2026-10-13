@@ -1,7 +1,7 @@
 // 網路優先、離線才用快取。頁面網址一律用結尾斜線，避免快取到轉址回應。
-const CACHE = 'busan-v2';
+const CACHE = 'busan-v3';
 const URLS = [
-  '/', '/prepare/', '/day1/', '/day2/', '/day3/', '/map/', '/weather/', '/tickets/',
+  '/', '/prepare/', '/guide/', '/food/', '/day1/', '/day2/', '/day3/', '/map/', '/weather/', '/tickets/',
   '/expenses/', '/calendar/', '/planner/', '/import/', '/planb/', '/new/',
   '/js/trip-tools.js', '/manifest.json',
 ];

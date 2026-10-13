@@ -26,8 +26,8 @@ export const checklist = [
     items: [
       { id: 'checkin', text: '濟州航空網路報到、選位、確認託運額度', note: '去程 15kg；回程 15kg＋5kg' },
       { id: 'money', text: '換韓元現金、帶可海外刷卡的信用卡', note: '帝王蟹與市場攤位常需現金' },
-      { id: 'esim', text: '買 eSIM 或漫遊方案', note: '韓國地圖與叫車都要網路' },
-      { id: 'apps', text: '安裝 Naver Map、KakaoMap、Papago，叫車用 Kakao T', note: 'Google 地圖在韓國步行與公車導航較不準' },
+      { id: 'esim', text: '買 eSIM 或漫遊方案', note: '韓國地圖與叫車都要網路。落地後要手動開「數據漫遊」，詳見出發功課' },
+      { id: 'apps', text: '安裝 Naver Map、KakaoMap、Papago，叫車用 Kakao T', note: 'Google 地圖在韓國步行與公車導航較不準。另可裝韓巢地鐵（轉乘）、Catch Table（熱門餐廳先抽號）' },
       { id: 'tmoney', text: '準備交通卡（T-money 或可感應的信用卡）', note: '機場輕軌與地鐵都用得到' },
       { id: 'costco', text: '好市多會員卡（確認有效、未過期）', note: '入場需出示會員卡與證件' },
       { id: 'costco-pay', text: '好市多付款帶 Visa 卡，並備韓元現金', note: '韓國店只收特定卡，Mastercard 說法不一；你的訂房用 Visa，可以帶它' },
@@ -59,7 +59,7 @@ export const checklist = [
     title: '採買用',
     items: [
       { id: 's-bag', text: '折疊大購物袋 2 個', note: '好市多不提供塑膠袋' },
-      { id: 's-space', text: '行李箱出發時留一半空間', note: '回程總額度 20kg，先抓好保養品與零食的重量' },
+      { id: 's-space', text: '行李箱出發時留一半空間', note: '回程總額度 20kg，先抓好保養品與零食的重量；伴手禮預留約 8–10kg（網友打包公式）' },
       { id: 's-passport', text: '退稅用：護照與購物收據', note: '單筆滿 ₩15,000 可退稅，結帳出示護照正本，請店家辦「即時退稅」（單筆上限 ₩1,000,000）。辦了即時退稅，商品可直接託運' },
       { id: 's-list', text: '家人委託的清單先整理好', note: '保養品牌、色號、容量，現場才不用再問' },
       { id: 's-cool', text: '保冷袋（要帶魚板、泡菜時用）', note: '' },

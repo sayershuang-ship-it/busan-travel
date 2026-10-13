@@ -3,7 +3,7 @@ const sum = (acts) => acts.reduce((s, a) => s + a.budget, 0);
 
 const day1 = [
   { time: '02:50', icon: '🛫', title: '桃園機場起飛', desc: '7C6164 濟州航空，第一航廈，託運 15kg', budget: 0, type: 'flight', gmap: map('Taoyuan International Airport Terminal 1') },
-  { time: '06:10', icon: '✈️', title: '抵達金海機場', desc: '國際航廈入境、領行李，約 07:15 出關。先上網填好 e-Arrival Card', budget: 0, type: 'flight', gmap: map('Gimhae International Airport') },
+  { time: '06:10', icon: '✈️', title: '抵達金海機場', desc: '國際航廈入境、領行李，約 07:15 出關。先上網填好 e-Arrival Card。輕軌站內 MoneyBox 06:00 開，可換少量韓元、對面 E-mart24 買 T-money', budget: 0, type: 'flight', gmap: map('Gimhae International Airport') },
   { time: '07:30', icon: '🚕', title: '搭車到釜山站', desc: '計程車約 25 分鐘、₩18,000–20,000；省錢可搭輕軌轉地鐵（05:00 起營運，約 ₩1,800、1 小時多）', budget: 20000, type: 'transport', gmap: map('Busan Station') },
   { time: '08:15', icon: '🏨', title: '寄放行李', desc: 'Almond Hotel 釜山站。早上只能寄放，下午才能入住', budget: 0, type: 'hotel', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
   { time: '08:45', icon: '🍲', title: '豬肉湯飯 ①', desc: '釜山站步行約 4 分鐘。營業約 08:30–21:30（各來源略有出入），常要排隊', ko: '본전돼지국밥', budget: 30000, type: 'food', gmap: map('본전돼지국밥 부산역') },
