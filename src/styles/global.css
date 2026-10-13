@@ -208,7 +208,7 @@ a { color: var(--teal-dark); }
 .activity.t-shopping { --dot: var(--yellow); }
 .activity.t-transport, .activity.t-flight { --dot: var(--sky); }
 .activity.t-hotel { --dot: var(--teal); }
-.activity.t-outdoor { --dot: var(--teal); }
+.activity.t-ticket, .activity.t-outdoor { --dot: var(--teal); }
 .activity .title { font-weight: 700; }
 .activity .ko { font-family: var(--hangul); font-size: 0.85rem; color: var(--muted); margin-left: 0.4rem; font-weight: 400; }
 .activity .desc { font-size: 0.9rem; color: var(--muted); max-width: 60ch; }
@@ -371,6 +371,6 @@ dialog.modal::backdrop { background: rgba(0,0,0,0.4); }
 .mini .t-food { --dot: var(--red); }
 .mini .t-shopping { --dot: var(--yellow); }
 .mini .t-transport, .mini .t-flight { --dot: var(--sky); }
-.mini .t-hotel, .mini .t-outdoor { --dot: var(--teal); }
+.mini .t-hotel, .mini .t-outdoor, .mini .t-ticket { --dot: var(--teal); }
 .mini .cost { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.8rem; }
 .more-link { display: block; padding: 0.75rem 1.25rem; border-top: 1px solid var(--line); font-size: 0.9rem; font-weight: 500; }

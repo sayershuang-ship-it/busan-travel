@@ -4,33 +4,34 @@ const sum = (acts) => acts.reduce((s, a) => s + a.budget, 0);
 const day1 = [
   { time: '02:50', icon: '🛫', title: '桃園機場起飛', desc: '7C6164 濟州航空，第一航廈，託運 15kg', budget: 0, type: 'flight', gmap: map('Taoyuan International Airport Terminal 1') },
   { time: '06:10', icon: '✈️', title: '抵達金海機場', desc: '國際航廈入境、領行李，約 07:15 出關。先上網填好 e-Arrival Card。輕軌站內 MoneyBox 06:00 開，可換少量韓元、對面 E-mart24 買 T-money', budget: 0, type: 'flight', gmap: map('Gimhae International Airport') },
-  { time: '07:30', icon: '🚕', title: '搭車到釜山站', desc: '計程車約 25 分鐘、₩18,000–20,000；省錢可搭輕軌轉地鐵（05:00 起營運，約 ₩1,800、1 小時多）', budget: 20000, type: 'transport', gmap: map('Busan Station') },
-  { time: '08:15', icon: '🏨', title: '寄放行李', desc: 'Almond Hotel 釜山站。早上只能寄放，下午才能入住', budget: 0, type: 'hotel', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
-  { time: '08:45', icon: '🍲', title: '豬肉湯飯 ①', desc: '釜山站步行約 4 分鐘。營業約 08:30–21:30（各來源略有出入），常要排隊', ko: '본전돼지국밥', budget: 30000, type: 'food', gmap: map('본전돼지국밥 부산역') },
+  { time: '07:30', icon: '🚕', title: '搭車到西面飯店', desc: '先到飯店寄行李。計程車約 25–30 分鐘、約 ₩20,000（估計，以 Kakao T 為準）；省錢可搭輕軌轉地鐵 2 號線到西面（05:00 起營運，約 ₩1,800）', budget: 20000, type: 'transport', gmap: map('Busan Station') },
+  { time: '08:15', icon: '🏨', title: '寄放行李', desc: 'Hotel BELLUS 西面。入住 16:00 起，早上只能寄放行李；入住請帶護照。接著去西面吃湯飯，步行或搭車約 10–15 分鐘（估計，以 Kakao T 為準）', budget: 0, type: 'hotel', gmap: map('Hotel BELLUS Seomyeon, 14-9 Jungang-daero 691beon-gil, Busanjin-gu, Busan') },
+  { time: '08:45', icon: '🍲', title: '豬肉湯飯 ①', desc: '포항돼지국밥 西面店，1948 年創始、藍絲帶大獎，24 小時營業，湯頭奶白濃郁、豬肉軟嫩。西面站 1 號出口步行約 100 多公尺', ko: '포항돼지국밥 서면점', budget: 30000, type: 'food', gmap: map('포항돼지국밥 서면점 서면로68번길 27') },
   { time: '09:30', icon: '🚕', title: '計程車去好市多金海店', desc: '車程請在 Kakao T 查，預留 50 分鐘，趕 10:00 開門', budget: 45000, type: 'transport', gmap: 'https://maps.app.goo.gl/9HdHpWTyh6HaVjCS8' },
   { time: '10:15', icon: '🛒', title: '好市多（Costco）金海店', desc: '10:00 開門，一大早人少。帶會員卡與護照，付款用 Visa 最保險，Mastercard 說法不一，備現金。先買零食、堅果、保養品等耐放品，生鮮與冷藏品別買，要放 3 天又要搭飛機', ko: '코스트코 김해점', budget: 150000, type: 'shopping', gmap: 'https://maps.app.goo.gl/9HdHpWTyh6HaVjCS8' },
-  { time: '12:45', icon: '🚕', title: '回釜山站，放下採買品', desc: '計程車回飯店，把戰利品寄放在櫃台，再輕裝去吃蟹', budget: 45000, type: 'transport', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
+  { time: '12:45', icon: '🚕', title: '回西面飯店，放下採買品', desc: '計程車回飯店，把戰利品寄放在櫃台，再輕裝去吃蟹', budget: 45000, type: 'transport', gmap: map('Hotel BELLUS Seomyeon, 14-9 Jungang-daero 691beon-gil, Busanjin-gu, Busan') },
   { time: '14:15', icon: '🦀', title: '札嘎其市場午餐', desc: '1 樓挑蟹、2 樓代客料理。2026 年遊客回報約 ₩70,000–100,000／kg，另加人頭費約 ₩5,000／人與料理費。先問 3–5 家，請店家扣掉籃子重量，成交前問「全部多少錢」', ko: '자갈치시장', budget: 200000, type: 'food', gmap: map('자갈치시장') },
   { time: '16:15', icon: '🧴', title: '南浦洞 Olive Young', desc: '保養＋抗老：精華、乳霜、防曬。單筆滿 ₩15,000 可退稅，結帳出示護照正本、辦「即時退稅」。南浦店能否辦理需現場問，不行就留到第 2 天廣安里店（官網標示可退）', ko: '올리브영 남포', budget: 100000, type: 'shopping', gmap: map('올리브영 남포') },
   { time: '17:15', icon: '🥞', title: '南浦洞 BIFF 小吃', desc: '씨앗호떡（堅果糖餡煎餅）與 부산어묵（魚板串），釜山代表街頭小吃', ko: '씨앗호떡', budget: 9000, type: 'food', gmap: map('BIFF광장 씨앗호떡'), alt: { icon: '🏬', title: '樂天百貨光復店 地下食品區', desc: '雨天改在室內吃小點心', budget: 9000, type: 'food' } },
-  { time: '18:00', icon: '🛏️', title: '入住、早點睡', desc: '凌晨出發，已經很累，晚餐吃得下再說，不排正餐', budget: 0, type: 'hotel', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
+  { time: '18:00', icon: '🛏️', title: '入住、早點睡', desc: '凌晨出發，已經很累，晚餐吃得下再說，不排正餐', budget: 0, type: 'hotel', gmap: map('Hotel BELLUS Seomyeon, 14-9 Jungang-daero 691beon-gil, Busanjin-gu, Busan') },
 ];
 
 const day2 = [
   { time: '08:30', icon: '🍲', title: '豬肉湯飯 ②', desc: '廣安里店，24 小時營業。湯頭較濃、肉量大方；傍晚人多，早上較好吃', ko: '수변최고돼지국밥 광안점', budget: 30000, type: 'food', gmap: map('수변최고돼지국밥 광안로 63') },
   { time: '10:00', icon: '🧴', title: '廣安里 Olive Young', desc: '官網標示可現場退稅。補齊昨天沒買的精華與防曬，面膜與護手霜也在這裡湊', ko: '올리브영 광안리점', budget: 80000, type: 'shopping', gmap: map('올리브영 광안리점') },
   { time: '12:00', icon: '🍜', title: '釜山冷麵 밀면', desc: '小麥冷麵，酸甜辣湯頭，釜山人的夏天味，11 月也有人吃。搭配煎餃（만두）', ko: '밀면', budget: 28000, type: 'food', gmap: map('밀면 수영구') },
-  { time: '13:30', icon: '🐚', title: '海雲台市場小吃', desc: '烤貝、年糕、炸物，邊走邊吃。吃完在海邊走走，回飯店休息', ko: '해운대시장', budget: 40000, type: 'food', gmap: map('해운대시장'), alt: { icon: '🏬', title: '新世界 Centum City 美食街', desc: '雨天改在百貨內吃，室內不淋雨', budget: 40000, type: 'food' } },
-  { time: '16:00', icon: '🛏️', title: '回飯店休息', desc: '兩天都早起，下午補眠，晚上再出門', budget: 0, type: 'hotel', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
-  { time: '18:30', icon: '🌉', title: '廣安里夜景與晚餐', desc: '看廣安大橋點燈，海邊挑一家烤肉或海鮮，慢慢吃', ko: '광안리', budget: 70000, type: 'food', gmap: map('광안리해수욕장'), alt: { icon: '🥩', title: '室內烤肉晚餐', desc: '雨天不看夜景，在飯店附近找室內烤肉店', budget: 70000, type: 'food' } },
+  { time: '13:30', icon: '🐚', title: '海雲台市場小吃', desc: '烤貝、年糕、炸物，邊走邊吃。吃完在海邊走走，再搭車去 Centum City 的 Spa Land', ko: '해운대시장', budget: 40000, type: 'food', gmap: map('해운대시장'), alt: { icon: '🏬', title: '新世界 Centum City 美食街', desc: '雨天改在百貨內吃，室內不淋雨', budget: 40000, type: 'food' } },
+  { time: '14:30', icon: '🧖', title: '新世界 Spa Land', desc: 'Centum City 的汗蒸幕與泡湯，洗完就是休息，約 2.5 小時，可依體力延長。預算含 3 人的 Visit Busan Pass BIG5（₩55,000／人，Spa Land 免費兌換，單次票約 ₩60,000）。帶毛巾、拖鞋，有置物櫃。LINE Pay「找體驗」購買', ko: '스파랜드', budget: 165000, type: 'ticket', gmap: map('신세계 스파랜드 센텀시티') },
+  { time: '17:15', icon: '🌇', title: 'Busan X the Sky', desc: '海雲台 LCT 100 樓景觀台，趕日落與夜景（11/1 日落約 17:25）。用 Busan Pass 兌換，單次票約 ₩20,000，不另計。從 Spa Land 搭計程車約 10 分鐘（估計）', budget: 0, type: 'ticket', gmap: map('Busan X the Sky') },
+  { time: '19:00', icon: '🌉', title: '廣安里夜景與晚餐', desc: '看廣安大橋點燈，海邊挑一家烤肉或海鮮，慢慢吃', ko: '광안리', budget: 70000, type: 'food', gmap: map('광안리해수욕장'), alt: { icon: '🥩', title: '室內烤肉晚餐', desc: '雨天不看夜景，在飯店附近找室內烤肉店', budget: 70000, type: 'food' } },
 ];
 
 const day3 = [
   { time: '09:00', icon: '🍲', title: '豬肉湯飯 ③', desc: '西面國밥巷，24 小時營業（公休日請先確認）。代表菜是맛녀석국밥', ko: '송정3대국밥 서면점', budget: 30000, type: 'food', gmap: map('송정3대국밥 서면점 서면로68번길 33') },
   { time: '10:00', icon: '🏬', title: '西面購物', desc: '樂天百貨釜山本店、西面地下街。最後補貨與伴手禮。結帳出示護照，單筆滿 ₩15,000 辦即時退稅', ko: '서면', budget: 100000, type: 'shopping', gmap: map('롯데백화점 부산본점') },
-  { time: '12:30', icon: '🍙', title: '釜山站最後一餐', desc: '충무김밥（忠武海苔飯卷配辣魷魚、蘿蔔）或 동래파전（東萊蔥煎餅）；삼진어묵 魚板帶回家', ko: '충무김밥', budget: 30000, type: 'food', gmap: map('부산역 충무김밥') },
-  { time: '14:00', icon: '☕', title: '咖啡休息、整理行李', desc: '回飯店把採買品分裝進託運行李：液體與保養品放託運（已辦即時退稅的才可託運），總重 20kg 內，磅一次', budget: 10000, type: 'food', gmap: map('부산역 카페') },
-  { time: '17:00', icon: '🥩', title: '晚餐：烤五花肉', desc: '釜山站周邊，最後一頓好好吃', budget: 60000, type: 'food', gmap: map('부산역 삼겹살') },
+  { time: '12:30', icon: '🍽️', title: '西面午餐', desc: '到美食頁西面區挑一家，例如 이낙에산다 章腸鍋（11:00–20:50）或 Clam House 蛤貝（西面站 1 號出口）', ko: '이낙에산다 서면', budget: 30000, type: 'food', gmap: map('이낙에산다 서면 직영점') },
+  { time: '14:00', icon: '☕', title: '咖啡休息、整理行李', desc: '把採買品分裝進託運行李（Hotel BELLUS 12:00 退房，行李寄放櫃台後在大廳整理）：液體與保養品放託運（已辦即時退稅的才可託運），總重 20kg 內，磅一次', budget: 10000, type: 'food', gmap: map('서면 카페') },
+  { time: '17:00', icon: '🥩', title: '晚餐：熟成烤肉', desc: '올드맨션 西面田浦店，離飯店近。熟成五花／肩頸肉 110g 約 ₩10,000–12,000，平日 15:00–17:00 休息，17:00 剛好開。最後一頓好好吃', ko: '올드맨션', budget: 60000, type: 'food', gmap: map('올드맨션 서면전포점 전포대로209번길 17-6') },
   { time: '18:30', icon: '🚕', title: '取行李、前往金海機場', desc: '計程車約 25 分鐘、₩18,000–20,000。金海機場退稅是人工櫃台、只有一人作業，會排隊，建議 19:00 前到', budget: 20000, type: 'transport', gmap: map('Gimhae International Airport') },
   { time: '22:00', icon: '🛫', title: '7C6163 起飛', desc: '23:50 抵達桃園第一航廈，託運 15kg＋5kg', budget: 0, type: 'flight', gmap: map('Gimhae International Airport') },
 ];
@@ -54,9 +55,9 @@ export const trip = {
   },
 
   hotel: {
-    name: 'Almond Hotel 釜山站',
-    note: '10/28 17:00（當地時間）前可免費取消。入住請帶護照，姓名需與訂房一致',
-    gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6',
+    name: 'Hotel BELLUS 西面',
+    note: '釜山鎮區中央大路 691 番街 14-9（Jungang-daero 691beonga-gil 14-9，47287），靠近田浦咖啡街。10/31 入住 16:00 起、11/2 退房 12:00。免費取消期限請看訂房確認信。入住請帶護照，姓名需與訂房一致',
+    gmap: map('Hotel BELLUS Seomyeon, 14-9 Jungang-daero 691beon-gil, Busanjin-gu, Busan'),
   },
 
   days: [
@@ -94,17 +95,18 @@ export const trip = {
 
   budgetSummary: [
     { label: '機票', icon: '✈️', amount: 0, note: '已購票' },
-    { label: '住宿', icon: '🏨', amount: 0, note: 'Almond Hotel 已預訂' },
+    { label: '住宿', icon: '🏨', amount: 0, note: 'Hotel BELLUS 西面' },
     { label: '餐飲', icon: '🍜', amount: sum([...day1, ...day2, ...day3].filter(a => a.type === 'food')), note: '3 人，含帝王蟹與 3 家豬肉湯飯' },
     { label: '購物', icon: '🛍️', amount: sum([...day1, ...day2, ...day3].filter(a => a.type === 'shopping')), note: '保養品＋好市多＋伴手禮' },
+    { label: '票券', icon: '🎫', amount: sum([...day1, ...day2, ...day3].filter(a => a.type === 'ticket')), note: 'Visit Busan Pass BIG5 3 人（Spa Land、X the Sky 等）' },
     { label: '交通', icon: '🚌', amount: sum([...day1, ...day2, ...day3].filter(a => a.type === 'transport')) + 30000, note: '機場往返＋市區計程車（預估）' },
   ],
 
-  // 座標：好市多、本錢、水邊最高、松亭三代、札嘎其、南浦 Olive Young、海雲台市場為地址查詢值；廣安里 Olive Young 與旅館為約略值
+  // 座標：好市多、本錢、水邊最高、松亭三代、札嘎其、南浦 Olive Young、海雲台市場為地址查詢值；廣安里 Olive Young 與旅館（Hotel BELLUS 西面）為約略值
   locations: [
     { name: '金海國際機場 PUS', lat: 35.1796, lng: 128.9401, icon: 'airport', gmap: map('Gimhae International Airport') },
-    { name: 'Almond Hotel 釜山站', lat: 35.1047, lng: 129.0394, icon: 'hotel', gmap: 'https://maps.app.goo.gl/aUqzeDCDvZSGLzHt6' },
-    { name: '본전돼지국밥（湯飯①）', lat: 35.1166, lng: 129.0414, icon: 'food', gmap: map('본전돼지국밥 부산역') },
+    { name: 'Hotel BELLUS 西面', lat: 35.1575, lng: 129.0600, icon: 'hotel', gmap: map('Hotel BELLUS Seomyeon, 14-9 Jungang-daero 691beon-gil, Busanjin-gu, Busan') },
+    { name: '포항돼지국밥 西面店（湯飯①）', lat: 35.1560, lng: 129.0586, icon: 'food', gmap: map('포항돼지국밥 서면점 서면로68번길 27') },
     { name: 'Olive Young 南浦', lat: 35.0995, lng: 129.0265, icon: 'shopping', gmap: map('올리브영 남포') },
     { name: '札嘎其市場', lat: 35.0966, lng: 129.0295, icon: 'food', gmap: map('자갈치시장') },
     { name: '수변최고돼지국밥 광안점（湯飯②）', lat: 35.1551, lng: 129.1190, icon: 'food', gmap: map('수변최고돼지국밥 광안로 63') },
@@ -116,20 +118,19 @@ export const trip = {
   ],
 
   dailyRoutes: {
-    1: [[35.1796,128.9401],[35.1047,129.0394],[35.1166,129.0414],[35.2356,128.8387],[35.1047,129.0394],[35.0966,129.0295],[35.0995,129.0265]],
-    2: [[35.1047,129.0394],[35.1551,129.1190],[35.1532,129.1186],[35.1623,129.1632],[35.1532,129.1186],[35.1047,129.0394]],
-    3: [[35.1047,129.0394],[35.1556,129.0585],[35.1572,129.0623],[35.1166,129.0414],[35.1796,128.9401]],
+    1: [[35.1796,128.9401],[35.1575,129.0600],[35.1560,129.0586],[35.2356,128.8387],[35.1575,129.0600],[35.0966,129.0295],[35.0995,129.0265]],
+    2: [[35.1575,129.0600],[35.1551,129.1190],[35.1532,129.1186],[35.1623,129.1632],[35.1532,129.1186],[35.1575,129.0600]],
+    3: [[35.1575,129.0600],[35.1556,129.0585],[35.1572,129.0623],[35.1796,128.9401]],
   },
 };
 
 export const foods = [
-  { name: '豬肉湯飯 ①', desc: '본전돼지국밥，釜山站步行 4 分鐘，落地後第一餐', price: '₩10,000-12,000', shop: '본전돼지국밥', lat: 35.1166, lng: 129.0414, gmap: map('본전돼지국밥 부산역') },
+  { name: '豬肉湯飯 ①', desc: '포항돼지국밥 西面店，24 小時，西面站 1 號出口步行約 100 多公尺', price: '₩10,000-12,000', shop: '포항돼지국밥 서면점', lat: 35.1560, lng: 129.0586, gmap: map('포항돼지국밥 서면점 서면로68번길 27') },
   { name: '豬肉湯飯 ②', desc: '수변최고돼지국밥 廣安店，24 小時，湯頭濃、肉多', price: '₩10,000-12,000', shop: '수변최고돼지국밥 광안점', lat: 35.1551, lng: 129.1190, gmap: map('수변최고돼지국밥 광안로 63') },
   { name: '豬肉湯飯 ③', desc: '송정3대국밥 西面店，24 小時，招牌맛녀석국밥', price: '₩10,000-12,000', shop: '송정3대국밥 서면점', lat: 35.1556, lng: 129.0585, gmap: map('송정3대국밥 서면점 서면로68번길 33') },
   { name: '帝王蟹', desc: '札嘎其市場 1 樓挑、2 樓代客料理', price: '₩150,000-250,000', shop: '札嘎其市場', lat: 35.0966, lng: 129.0295, gmap: map('자갈치시장') },
   { name: '釜山冷麵 밀면', desc: '小麥冷麵，酸甜辣湯頭，搭煎餃', price: '₩8,000-10,000', shop: '水營區', lat: 35.1700, lng: 129.1150, gmap: map('밀면 수영구') },
   { name: '씨앗호떡 與 魚板', desc: 'BIFF 廣場街頭小吃，釜山代表', price: '₩2,000-5,000', shop: '南浦洞 BIFF 廣場', lat: 35.0988, lng: 129.0276, gmap: map('BIFF광장 씨앗호떡') },
-  { name: '충무김밥 / 동래파전', desc: '釜山站最後一餐，海苔飯卷或蔥煎餅', price: '₩8,000-15,000', shop: '釜山站周邊', lat: 35.1150, lng: 129.0405, gmap: map('부산역 충무김밥') },
   { name: '海雲台市場小吃', desc: '烤貝、年糕、炸物', price: '₩10,000-20,000', shop: '海雲台市場', lat: 35.1623, lng: 129.1632, gmap: map('해운대시장') },
 ];
 

@@ -13,7 +13,7 @@ const dayLocations = JSON.stringify(
   )
 );
 const mapCenter = JSON.stringify([d.lat, d.lng]);
-const typeLabel = { food: '餐飲', shopping: '購物', transport: '交通', flight: '航班', hotel: '住宿', outdoor: '散步' };
+const typeLabel = { food: '餐飲', shopping: '購物', transport: '交通', flight: '航班', hotel: '住宿', outdoor: '散步', ticket: '票券' };
 const byType = [...new Set(d.activities.map(a => a.type))]
   .map(type => ({ type, total: d.activities.filter(a => a.type === type).reduce((s, a) => s + a.budget, 0) }))
   .filter(x => x.total > 0);

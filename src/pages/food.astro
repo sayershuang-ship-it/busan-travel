@@ -22,8 +22,9 @@ const map = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIC
             {a.shops.map(s => (
               <tr>
                 <td>
-                  <a href={map(`${s.name} 釜山 ${a.title}`)} target="_blank" rel="noopener"><strong>{s.name}</strong></a>
+                  <a href={map(s.addr ? `${s.name} ${s.addr}` : `${s.name} 釜山 ${a.title}`)} target="_blank" rel="noopener"><strong>{s.name}</strong></a>
                   <div class="food-sub">{s.type}</div>
+                  {s.addr && <div class="food-sub">{s.addr}（2026-10-14 補查）</div>}
                   {s.note && <div class="food-sub">{s.note}</div>}
                 </td>
                 <td class="food-meta">
