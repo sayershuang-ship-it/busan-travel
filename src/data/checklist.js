@@ -28,7 +28,7 @@ export const checklist = [
       { id: 'esim', text: '買 eSIM 或漫遊方案', note: '韓國地圖與叫車都要網路。落地後要手動開「數據漫遊」，詳見出發功課' },
       { id: 'apps', text: '安裝 Naver Map、KakaoMap、Papago，叫車用 Kakao T', note: 'Google 地圖在韓國步行與公車導航較不準。另可裝韓巢地鐵（轉乘）、Catch Table（熱門餐廳先抽號）' },
       { id: 'tmoney', text: '準備交通卡（T-money 或可感應的信用卡）', note: '機場輕軌與地鐵都用得到' },
-      { id: 'buspass', text: '決定是否買 Visit Busan Pass BIG5（₩55,000）', note: '3 人各買一份，Day 2 的 Spa Land 與 X the Sky 要用。用 LINE Pay「找體驗」購買，平日最高 8%、假日最高 14% 回饋；細節見出發功課' },
+      { id: 'buspass', text: '決定是否買 Visit Busan Pass BIG5（₩55,000）', note: '4 項景點已排定，單次票合計約 ₩76,000／人，與 Pass 價差不大，請在官方頁核對價格與 BIG3/BIG5 組別後再決定。用 LINE Pay「找體驗」購買，平日最高 8%、假日最高 14% 回饋；細節見出發功課' },
       { id: 'costco', text: '好市多會員卡（確認有效、未過期）', note: '入場需出示會員卡與證件' },
       { id: 'costco-pay', text: '好市多付款帶 Visa 卡，並備韓元現金', note: '韓國店只收特定卡，Mastercard 說法不一；你的訂房用 Visa，可以帶它' },
       { id: 'costco-day', text: '10/31（週六）好市多金海店 10:00 開門', note: '我只確認到週一 10:00–22:00，週六請在 Google 地圖再看一次。10/31 不是週日，不受公休影響' },
