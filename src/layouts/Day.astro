@@ -49,7 +49,8 @@ const byType = [...new Set(d.activities.map(a => a.type))]
               <div class="desc">{a.desc}</div>
               <div class="row">
                 <span class={`budget ${a.budget === 0 ? 'free' : ''}`}>{a.budget === 0 ? '不另計' : `₩${a.budget.toLocaleString()}`}</span>
-                {a.gmap && <a class="gmap" href={a.gmap} target="_blank" rel="noopener">開啟地圖</a>}
+                {a.gmap && <a class="gmap" href={a.gmap} target="_blank" rel="noopener">Google Map</a>}
+                {a.nmap && <a class="gmap" href={a.nmap} target="_blank" rel="noopener">Naver Map</a>}
               </div>
             </div>
           </li>

@@ -68,11 +68,11 @@ const googleMapsApiKey = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY ?? '';
       <h2 style="margin-bottom:0.75rem;">📍 景點列表</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.5rem;">
         {trip.locations.map(loc => (
-          <a href={`https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`} target="_blank" rel="noopener noreferrer"
-            style="display:block;background:var(--bg);border-radius:0.75rem;padding:0.75rem;font-size:0.85rem;text-decoration:none;color:var(--text);">
+          <div style="display:block;background:var(--bg);border-radius:0.75rem;padding:0.75rem;font-size:0.85rem;color:var(--text);">
             <strong>{loc.name}</strong><br />
-            <span style="color:var(--brand);font-size:0.75rem;">↗ Google Maps</span>
-          </a>
+            <a href={loc.gmap} target="_blank" rel="noopener noreferrer" style="color:var(--brand);font-size:0.75rem;margin-right:0.75rem;">↗ Google Map</a>
+            <a href={loc.nmap} target="_blank" rel="noopener noreferrer" style="color:var(--brand);font-size:0.75rem;">↗ Naver Map</a>
+          </div>
         ))}
       </div>
     </div>

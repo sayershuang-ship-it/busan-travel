@@ -56,6 +56,10 @@ const tools = [
     <div class="note">
       <strong>{trip.hotel.name}</strong>
       {trip.hotel.note}
+      <div style="margin-top:0.4rem;display:flex;gap:0.9rem;font-size:0.9rem;">
+        <a href={trip.hotel.gmap} target="_blank" rel="noopener">Google Map</a>
+        <a href={trip.hotel.nmap} target="_blank" rel="noopener">Naver Map</a>
+      </div>
     </div>
 
     <div class="weather-banner">
@@ -92,11 +96,15 @@ const tools = [
     <h2 style="margin:2rem 0 0.75rem;">要吃的</h2>
     <div class="food-grid">
       {foods.map(f => (
-        <a class="food-card" href={f.gmap} target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">
+        <div class="food-card">
           <strong>{f.name}</strong>
           <div style="font-size:0.9rem;color:var(--muted);">{f.desc}</div>
           <div style="font-size:0.85rem;margin-top:0.25rem;">{f.price}</div>
-        </a>
+          <div style="font-size:0.85rem;margin-top:0.4rem;display:flex;gap:0.9rem;">
+            <a href={f.gmap} target="_blank" rel="noopener">Google Map</a>
+            <a href={f.nmap} target="_blank" rel="noopener">Naver Map</a>
+          </div>
+        </div>
       ))}
     </div>
 
