@@ -52,7 +52,7 @@ const day3 = [
   { time: '12:15', icon: '🥩', title: '烤肉的男子 西面店', desc: '고기굽는男子，專人桌邊代烤，熟成生五花 150g 約 ₩14,000（搜尋資料，未查證）。6 人先確認座位與午餐是否營業，避開 12:00–13:00 尖峰；分店地址我沒查到，用地圖搜尋「고기굽는남자 서면」找最近的', ko: '고기굽는남자', budget: 160000, type: 'food', ...loc('고기굽는남자 서면', '고기굽는남자 서면') },
   { time: '13:45', icon: '🚕', title: '大型計程車去影島', desc: '西面到影島 Arte Museum，約 30 分鐘（估計，以 Kakao T 為準）。行李已寄放飯店', budget: 35000, type: 'transport', ...loc('아르떼뮤지엄 부산 영도구 해양로247번길 29') },
   { time: '14:15', icon: '🎨', title: 'Arte Museum 釜山', desc: '沉浸式光影藝術展，約 1–1.5 小時，不能重入場，可以坐著看。持 Visit Busan Pass BIG5 免費兌換（藍色景點，原價約 ₩25,000，需先換票）。營業 10:00–20:00、最晚入場 19:00（官方，可能調整）。位置在影島，不是海雲台', ko: '아르떼뮤지엄', budget: 0, type: 'ticket', ...loc('아르떼뮤지엄 부산 영도구 해양로247번길 29') },
-  { time: '15:30', icon: '🍢', title: '三進魚板（釜山伴手禮）', desc: '삼진어묵 是釜山代表魚板品牌，總店在影島。離 Arte Museum 多遠、營業時間我沒查證，順路才去，不順就用樂天百貨或機場買', ko: '삼진어묵', budget: 40000, type: 'shopping', ...loc('삼진어묵 영도', '삼진어묵 본점') },
+  { time: '15:30', icon: '🍢', title: '三進魚板（釜山伴手禮）', desc: '삼진어묵 是釜山代表魚板品牌，總店在影島。離 Arte Museum 多遠、營業時間我沒查證，順路才去；新世界 Centum City B1 也有分店（Day 1 逛街可買），樂天百貨與機場也買得到', ko: '삼진어묵', budget: 40000, type: 'shopping', ...loc('삼진어묵 영도', '삼진어묵 본점') },
   { time: '15:45', icon: '🚕', title: '搭車去松島', desc: '影島到松島約 25–30 分鐘（估計，以 Kakao T 為準），6 人坐大型車', budget: 40000, type: 'transport', ...loc('송도해상케이블카 송림공원 탑승장') },
   { time: '16:30', icon: '🚠', title: '松島海上纜車', desc: '松林公園到岩南公園，往返約 20 分鐘，在海面上空約 86 公尺（網路資料）。持 Visit Busan Pass BIG5 免費兌換（藍色景點，原價往返約 ₩19,000，水晶車廂約 ₩24,000，需先換票）。營業 09:00–21:00，日落約 17:20（估計），看黃昏', ko: '송도해상케이블카', budget: 0, type: 'ticket', ...loc('송도해상케이블카 송림공원 탑승장') },
   { time: '17:15', icon: '🚕', title: '搭車回西面飯店', desc: '松島回西面約 35 分鐘（估計）。行李在飯店，回程要抓時間，若時間吃緊，晚餐改在機場', budget: 45000, type: 'transport', ...hotelLoc },
@@ -178,6 +178,10 @@ export const contingency = {
     { icon: '🛍️', name: '樂天百貨', desc: '免稅＋地下超市', cost: '免費入場', area: '西面' },
     { icon: '🧴', name: 'Olive Young', desc: '各區皆有，可躲雨補保養品', cost: '免費入場', area: '南浦・海雲台' },
     { icon: '🛁', name: '汗蒸幕', desc: '西面、海雲台有多間', cost: '₩10,000-20,000', area: '西面' },
+    { icon: '🎨', name: 'Arte Museum 釜山', desc: '沉浸式光影展，室內、約 2 小時，Pass 免費', cost: 'Pass 免費', area: '影島' },
+    { icon: '🏙️', name: 'Busan X the SKY', desc: '100 樓觀景台，有電梯，Pass 免費', cost: 'Pass 免費', area: '海雲台' },
+    { icon: '🐠', name: 'SEA LIFE 釜山水族館', desc: '室內，美人魚表演、鯊魚餵食秀，Pass 可折 30%', cost: '見官網', area: '海雲台' },
+    { icon: '♨️', name: 'Hill Spa 汗蒸幕', desc: '海景足湯，Pass 免費 4 小時，需現金', cost: 'Pass 免費', area: '海雲台' },
   ],
   scenarios: [
     {
