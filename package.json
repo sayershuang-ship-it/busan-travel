@@ -21,6 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@cloudflare/workers-types": "^4.20260615.1",
-    "astro": "^5.0.0"
+    "astro": "^5.0.0",
+    "leaflet": "^1.9.4"
   }
 }

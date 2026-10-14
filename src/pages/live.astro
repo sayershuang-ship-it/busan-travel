@@ -1,0 +1,262 @@
+---
+import Base from '../layouts/Base.astro';
+import { trip } from '../data/itinerary';
+const tripJson = JSON.stringify(trip);
+---
+
+<Base title="即時行程">
+  <main class="live">
+    <script type="application/json" id="live-trip" set:html={tripJson}></script>
+
+    <div id="live-map" class="live-map" role="region" aria-label="行程地圖"></div>
+
+    <section class="live-panel">
+      <div class="live-modes" role="group" aria-label="切換模式">
+        <button type="button" class="live-btn" data-mode="live" aria-pressed="false">即時</button>
+        <button type="button" class="live-btn" data-mode="preview" aria-pressed="false">預覽</button>
+      </div>
+      <p id="live-notice" class="live-notice" hidden></p>
+
+      <div id="live-controls" class="live-controls">
+        <button type="button" id="live-gps" class="live-btn">📍 開啟定位</button>
+        <p id="live-gps-status" class="live-small">沒有定位時，用行程時間判斷現在在哪一站。</p>
+      </div>
+
+      <div id="preview-controls" class="live-controls" hidden>
+        <div class="live-days" role="group" aria-label="選擇日期">
+          {trip.days.map((d) => (
+            <button type="button" class="live-btn" data-day={d.day} aria-pressed="false">Day {d.day}<br /><small>{d.date}</small></button>
+          ))}
+        </div>
+        <label class="live-slider">
+          <span>時間 <strong id="preview-time">--:--</strong></span>
+          <input id="preview-range" type="range" min="0" max="1435" step="5" value="0" />
+        </label>
+        <button type="button" id="preview-play" class="live-btn" aria-pressed="false">▶ 播放這一天</button>
+      </div>
+
+      <div class="live-cards" aria-live="polite">
+        <article class="live-card">
+          <h2 class="live-label">現在</h2>
+          <p id="now-title" class="live-big">—</p>
+          <p id="now-type" class="live-small"></p>
+        </article>
+
+        <article class="live-card is-next">
+          <h2 class="live-label">下一站 <span id="next-time"></span></h2>
+          <p id="next-title" class="live-big">—</p>
+          <p id="next-where" class="live-where"></p>
+          <p id="next-note" class="live-small"></p>
+          <p id="next-travel" class="live-mid"></p>
+          <p id="next-countdown" class="live-mid"></p>
+          <p id="live-delay" class="live-delay" hidden></p>
+          <div class="live-nav">
+            <a id="next-nmap" class="live-btn is-primary" target="_blank" rel="noopener">Naver Map 導航</a>
+            <a id="next-gmap" class="live-btn" target="_blank" rel="noopener">Google Map</a>
+          </div>
+        </article>
+      </div>
+      <p class="live-small">方位與距離為直線；車程為 OSRM 路線估計再加 30% 緩衝，實際以 Kakao T／k.ride 為準。韓國步行與公車導航請用 Naver Map。離線時地圖底圖可能空白，站點、路線與卡片仍可用。</p>
+    </section>
+  </main>
+</Base>
+
+<script>
+  import { buildTimeline, findNowNext, parseSeoulLocal, tripRange, dayOf, formatSeoul, dayDate } from '../lib/live/timeline.js';
+  import { buildSegments } from '../lib/live/segments.js';
+  import { fillMissingRoutes } from '../lib/live/osrm.js';
+  import { buildCard } from '../lib/live/card.js';
+  import { createLiveMap } from '../lib/live/map.js';
+
+  const trip = JSON.parse(document.getElementById('live-trip').textContent);
+  const timeline = buildTimeline(trip);
+  const segments = buildSegments(timeline);
+  const range = tripRange(trip);
+  const params = new URLSearchParams(location.search);
+  const simulated = parseSeoulLocal(params.get('t'));
+  const dayParam = Number(params.get('day'));
+  const $ = (id) => document.getElementById(id);
+
+  let routes = {};
+  try {
+    const res = await fetch('/data/routes.json');
+    if (res.ok) routes = (await res.json()).routes ?? {};
+  } catch { /* 離線且沒快取：全部畫直線 */ }
+
+  const map = createLiveMap($('live-map'), { timeline, segments, routes });
+
+  const clock = () => simulated ?? Date.now();
+  const inTrip = (ms) => ms >= range.startMs && ms <= range.endMs;
+  const dayStartMs = (day) => Date.parse(`${dayDate(trip.startDate, day)}T00:00:00+09:00`);
+
+  let mode = simulated || inTrip(Date.now()) ? 'live' : 'preview';
+  let previewDay = dayParam >= 1 && dayParam <= trip.days.length ? dayParam : simulated ? dayOf(trip, simulated) : 1;
+  let gps = null;
+  let watchId = null;
+  let playTimer = null;
+
+  const firstOfDay = timeline.find((s) => s.day === previewDay);
+  const initMs = simulated && dayOf(trip, simulated) === previewDay ? simulated : firstOfDay.startMs;
+  $('preview-range').value = String(Math.max(0, Math.round((initMs - dayStartMs(previewDay)) / 300000) * 5));
+
+  function previewMs() {
+    return dayStartMs(previewDay) + Number($('preview-range').value) * 60000;
+  }
+
+  function setText(id, text) {
+    $(id).textContent = text ?? '';
+  }
+
+  function render() {
+    const tMs = mode === 'live' ? clock() : previewMs();
+    const { now, next } = findNowNext(timeline, tMs);
+    const segment = next ? segments.find((s) => s.toSeq === next.seq) : undefined;
+    const route = segment ? routes[segment.key] : undefined;
+    const useGps = mode === 'live' ? gps : null;
+    const card = buildCard({ now, next, tMs, gps: useGps, segment, route });
+
+    map.showDay(mode === 'live' ? dayOf(trip, tMs) : previewDay);
+    map.setSelf(useGps);
+    map.focus({ now, next, origin: useGps ?? now, bearing: card.bearing });
+
+    setText('now-title', card.now ? `${card.now.icon} ${card.now.title}` : card.status === 'before' ? '行程尚未開始' : '—');
+    setText('now-type', card.now ? `${card.now.typeLabel}・${formatSeoul(now.startMs)} 開始` : '');
+    if (card.next) {
+      setText('next-time', `・行程 ${card.next.time}`);
+      setText('next-title', `${card.next.icon} ${card.next.title}`);
+      setText('next-where', card.next.direction ? `${card.next.direction} ${card.next.distance}` : card.next.distance ?? '');
+      setText('next-note', card.next.distanceNote);
+      setText('next-travel', card.next.travel);
+      setText('next-countdown', card.next.countdown);
+      $('next-nmap').href = card.next.nmap;
+      $('next-gmap').href = card.next.gmap;
+    } else {
+      setText('next-time', '');
+      setText('next-title', '行程結束，平安回家');
+      ['next-where', 'next-note', 'next-travel', 'next-countdown'].forEach((id) => setText(id, ''));
+    }
+    $('live-delay').hidden = !card.delay;
+    $('live-delay').textContent = card.delay ?? '';
+    $('preview-time').textContent = formatSeoul(previewMs());
+    $('preview-range').setAttribute('aria-valuetext', `Day ${previewDay} ${formatSeoul(previewMs())}`);
+  }
+
+  function setMode(m) {
+    mode = m;
+    document.querySelectorAll('[data-mode]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+    $('live-controls').hidden = m !== 'live';
+    $('preview-controls').hidden = m !== 'preview';
+    const notice = $('live-notice');
+    if (m === 'live' && simulated) {
+      notice.textContent = `模擬時間：${formatSeoul(simulated)}（首爾）`;
+    } else if (m === 'preview' && !inTrip(Date.now())) {
+      notice.textContent = Date.now() < range.startMs ? '行程尚未開始，先用預覽看看每一站。' : '行程已結束。';
+    } else {
+      notice.textContent = '';
+    }
+    notice.hidden = !notice.textContent;
+    stopPlay();
+    render();
+  }
+
+  function setPreviewDay(day) {
+    previewDay = day;
+    document.querySelectorAll('[data-day]').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.day) === day)));
+    render();
+  }
+
+  function stopPlay() {
+    clearInterval(playTimer);
+    playTimer = null;
+    $('preview-play').setAttribute('aria-pressed', 'false');
+    $('preview-play').textContent = '▶ 播放這一天';
+  }
+
+  document.querySelectorAll('[data-mode]').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  document.querySelectorAll('[data-day]').forEach((b) => b.addEventListener('click', () => setPreviewDay(Number(b.dataset.day))));
+  $('preview-range').addEventListener('input', () => { stopPlay(); render(); });
+  $('preview-play').addEventListener('click', () => {
+    if (playTimer) return stopPlay();
+    const r = $('preview-range');
+    if (Number(r.value) >= Number(r.max)) r.value = '0';
+    $('preview-play').setAttribute('aria-pressed', 'true');
+    $('preview-play').textContent = '⏸ 暫停';
+    playTimer = setInterval(() => {
+      r.value = String(Math.min(Number(r.max), Number(r.value) + 5));
+      render();
+      if (Number(r.value) >= Number(r.max)) stopPlay();
+    }, 100); // 5 分鐘／0.1 秒，一天約 30 秒
+  });
+
+  $('live-gps').addEventListener('click', () => {
+    if (watchId !== null) return;
+    if (!('geolocation' in navigator)) { $('live-gps-status').textContent = '這台裝置不支援定位，改用行程時間判斷。'; return; }
+    $('live-gps-status').textContent = '定位中…';
+    watchId = navigator.geolocation.watchPosition(
+      (p) => {
+        gps = { lat: p.coords.latitude, lng: p.coords.longitude, accuracy: p.coords.accuracy };
+        $('live-gps-status').textContent = `已定位（誤差約 ${Math.round(p.coords.accuracy)} 公尺）`;
+        render();
+      },
+      (err) => {
+        gps = null;
+        watchId = null;
+        $('live-gps-status').textContent = err.code === err.PERMISSION_DENIED
+          ? '沒有定位權限，改用行程時間判斷；方向從現在這站算。'
+          : '暫時抓不到位置，改用行程時間判斷。';
+        render();
+      },
+      { enableHighAccuracy: true, maximumAge: 15000, timeout: 20000 },
+    );
+  });
+
+  setPreviewDay(previewDay);
+  setMode(mode);
+  setInterval(() => { if (mode === 'live') render(); }, 30000);
+
+  // routes.json 缺的段落才即時補抓，有抓到就重畫（不要 reload：補抓結果沒存檔，reload 會無限循環）
+  const before = Object.keys(routes).length;
+  fillMissingRoutes(segments, routes, { timeoutMs: 5000 }).then(() => {
+    if (Object.keys(routes).length > before) { map.redraw(); render(); }
+  });
+</script>
+
+<style is:global>
+  .live { max-width: 720px; margin: 0 auto; }
+  .live-map { height: 45vh; min-height: 260px; width: 100%; }
+  .live-panel { padding: 1rem; font-size: 18px; }
+  .live-modes, .live-days, .live-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .live-modes .live-btn, .live-days .live-btn, .live-nav .live-btn { flex: 1; }
+  .live-btn {
+    min-height: 48px; min-width: 48px; padding: 0.5rem 1rem;
+    font: inherit; font-weight: 700; line-height: 1.3;
+    border: 2px solid var(--teal-dark); border-radius: var(--radius);
+    background: var(--surface); color: var(--ink);
+    display: inline-flex; align-items: center; justify-content: center; text-align: center;
+    text-decoration: none; cursor: pointer;
+  }
+  .live-btn[aria-pressed="true"], .live-btn.is-primary { background: var(--teal-dark); color: var(--paper); }
+  .live-btn small { font-weight: 500; font-size: 1em; }
+  .live-days .live-btn { flex-direction: column; }
+  .live-controls { margin: 0.75rem 0; display: grid; gap: 0.5rem; }
+  .live-controls[hidden] { display: none; }
+  .live-slider { display: grid; gap: 0.25rem; }
+  .live-slider input { width: 100%; min-height: 48px; accent-color: var(--teal-dark); }
+  .live-notice { margin-top: 0.75rem; padding: 0.75rem; border-left: 4px solid var(--yellow); background: var(--surface); }
+  .live-cards { display: grid; gap: 0.75rem; margin: 1rem 0; }
+  .live-card { background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius); padding: 1rem; }
+  .live-card.is-next { border-color: var(--teal-dark); }
+  .live-label { font-family: var(--sans); font-size: 18px; color: var(--muted); font-weight: 700; }
+  .live-big { font-size: 26px; font-weight: 700; line-height: 1.35; }
+  .live-where { font-size: 30px; font-weight: 900; color: var(--teal-dark); }
+  .live-mid { font-size: 20px; font-weight: 500; }
+  .live-small { font-size: 18px; color: var(--muted); }
+  .live-delay { font-size: 22px; font-weight: 700; color: var(--red); }
+  .live-delay::before { content: '⚠️ '; }
+  .live-nav { margin-top: 0.75rem; }
+  .live-stop { background: #fff; border: 3px solid #11283d; border-radius: 50%; display: grid; place-items: center; position: relative; font-size: 20px; }
+  .live-stop.is-now { border-color: #b93a32; border-width: 5px; }
+  .live-stop.is-next { border-color: #1e7b76; border-width: 5px; border-style: dashed; }
+  .live-stop-num { position: absolute; right: -6px; bottom: -6px; background: #11283d; color: #fff; border-radius: 999px; font: 700 12px/18px var(--sans); min-width: 18px; text-align: center; }
+  .live-arrow span { display: block; font-size: 36px; line-height: 44px; text-align: center; color: #11283d; text-shadow: 0 0 3px #fff; }
+</style>
