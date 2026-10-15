@@ -1,12 +1,12 @@
-# 交接：kumamoto-travel CI/CD 部署設定完成
+# 交接：busan-travel CI/CD 部署設定完成
 
 **時間**: 2026-06-15  
 **結果**: ✅ GitHub Actions → Cloudflare Pages 自動部署正常運作
 
 ## 最終狀態
 
-- **網站上線**: https://kumamoto-travel.pages.dev
-- **GitHub**: sayershuang-ship-it/kumamoto-travel
+- **網站上線**: https://busan-travel.pages.dev
+- **GitHub**: sayershuang-ship-it/busan-travel
 - **CI 流程**: push main → `npm install` → `astro build` → `wrangler pages deploy`
 - **Workflow 檔案**: `.github/workflows/deploy.yml`
 
@@ -23,8 +23,8 @@
 | 項目 | 值 |
 |---|---|
 | Account ID | `5c6837ef78c66d521d6e450a91c7bd61` |
-| Pages Project | `kumamoto-travel` |
-| Pages Project ID | `44061f59-ef5d-40f1-a88b-5766e5729fd5` |
+| Pages Project | `busan-travel` |
+| Pages Project ID | （busan-travel 專案建立後補上）|
 | Email | sayers.tw@yahoo.com.tw |
 
 ## 踩過的坑（勿重蹈）
@@ -38,7 +38,7 @@
 ## 本地開發
 
 ```bash
-cd /Users/shouwan/projects/kumamoto-travel
+cd /Users/shouwan/projects/busan-travel
 npm install
 npx astro dev
 ```
