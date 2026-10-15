@@ -27,4 +27,4 @@ jobs:
           CLOUDFLARE_EMAIL: ${{ secrets.CF_EMAIL }}
           CLOUDFLARE_ACCOUNT_ID: 5c6837ef78c66d521d6e450a91c7bd61
         run: |
-          npx wrangler pages deploy dist --project-name=kumamoto-travel --branch=main
+          npx wrangler pages deploy dist --project-name=busan-travel --branch=main
