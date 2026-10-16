@@ -7,7 +7,7 @@ const sum = (acts) => acts.reduce((s, a) => s + a.budget, 0);
 const HOTEL_Q = 'Hotel BELLUS Seomyeon, 14-9 Jungang-daero 691beon-gil, Busanjin-gu, Busan';
 const HOTEL_NQ = '부산진구 중앙대로691번길 14-9';
 const hotelLoc = loc(HOTEL_Q, HOTEL_NQ);
-const COSTCO = { gmap: 'https://maps.app.goo.gl/9HdHpWTyh6HaVjCS8', nmap: nav('코스트코 김해점') };
+const COSTCO = { gmap: 'https://maps.app.goo.gl/wHwvdbJR2mhvXbBS6', nmap: nav('코스트코 부산점') };
 
 // 預算以 6 人計。Visit Busan Pass BIG5 已購（6 人各一張），Spa Land、海邊列車、X the SKY、Arte Museum、松島纜車皆以 Pass 免費入場，所以票券欄記 0
 const day1 = [
@@ -19,9 +19,9 @@ const day1 = [
   { time: '09:45', icon: '🚕', title: '搭車去 Centum City', desc: '從西面搭大型計程車去新世界 Centum City，約 20 分鐘（估計，以 Kakao T 為準）。Spa Land 09:00 就開', budget: 25000, type: 'transport', ...loc('신세계 센텀시티 스파랜드') },
   { time: '10:15', icon: '🧖', title: '新世界 Spa Land', desc: '紅眼班機後的休息站：泡湯、汗蒸幕、躺著補眠，一次入場最多 4 小時（官方，超時每小時 ₩5,000）。持 Visit Busan Pass BIG5 免費兌換入場券（紫色景點，原價 ₩26,000）。帶毛巾、拖鞋，有置物櫃。長輩留意地板濕滑', ko: '스파랜드', budget: 0, type: 'ticket', ...loc('신세계 센텀시티 스파랜드') },
   { time: '13:30', icon: '🏬', title: '午餐、逛 Centum City', desc: '新世界 Centum City 百貨與美食街，吃午餐、順便逛街。B1 有三進魚板分店，想買釜山魚板伴手禮在這裡買（Day 3 不再去影島總店；冷藏品保存期限看包裝，未查證）。商品單筆滿 ₩15,000 可辦即時退稅。6 人預算約 ₩70,000', budget: 70000, type: 'food', ...loc('신세계 센텀시티') },
-  { time: '14:45', icon: '🚕', title: '大型計程車去好市多金海店', desc: '從 Centum City 過去路程較遠，在 Kakao T 查，預留 50–60 分鐘', budget: 60000, type: 'transport', ...COSTCO },
-  { time: '15:45', icon: '🛒', title: '好市多（Costco）金海店', desc: '帶會員卡與護照，付款用 Visa 最保險，Mastercard 說法不一，備現金。先買零食、堅果、保養品等耐放品，生鮮與冷藏品別買，要放 3 天又要搭飛機。採買前請先確認週六營業時間，建議 17:00 前結帳', ko: '코스트코 김해점', budget: 250000, type: 'shopping', ...COSTCO },
-  { time: '17:00', icon: '🚕', title: '大型計程車回西面飯店', desc: '約 35–40 分鐘（估計，以 Kakao T 為準）。大型車載人加採買品，放不下就改 2 台', budget: 60000, type: 'transport', ...hotelLoc },
+  { time: '14:45', icon: '🚕', title: '大型計程車去好市多釜山店', desc: '從 Centum City 過去約 10–15 分鐘（估計，以 Kakao T 為準）', budget: 20000, type: 'transport', ...COSTCO },
+  { time: '15:00', icon: '🛒', title: '好市多（Costco）釜山店', desc: '帶會員卡與護照，付款用 Visa 最保險，Mastercard 說法不一，備現金。先買零食、堅果、保養品等耐放品，生鮮與冷藏品別買，要放 3 天又要搭飛機。採買前請先確認週六營業時間，建議 17:00 前結帳', ko: '코스트코 부산점', budget: 250000, type: 'shopping', ...COSTCO },
+  { time: '17:00', icon: '🚕', title: '大型計程車回西面飯店', desc: '約 20–25 分鐘（估計，以 Kakao T 為準）。大型車載人加採買品，放不下就改 2 台', budget: 25000, type: 'transport', ...hotelLoc },
   { time: '17:40', icon: '🔌', title: '辦入住、整理、充電休息', desc: '辦入住（16:00 起），把好市多戰利品和行李放進房間，手機與行動電源充電，躺一下。休息約 1 小時，18:45 再出門', budget: 0, type: 'hotel', ...hotelLoc },
   { time: '18:45', icon: '🚕', title: '搭車去南浦', desc: '西面到南浦約 15–20 分鐘（估計，以 Kakao T 為準），6 人坐大型車', budget: 18000, type: 'transport', ...loc('자갈치시장') },
   { time: '19:15', icon: '🦀', title: '新東亞市場吃蟹', desc: '札嘎其一帶的新東亞市場。挑蟹後請店家料理或到樓上餐廳代煮；部分餐廳另收料理費與人頭費，先問 3–5 家，請店家扣掉籃子重量，成交前問「全部多少錢」。2026 年遊客回報約 ₩70,000–100,000／kg，6 人約 2.5–3kg 抓預算。攤位晚上收攤時間不一，建議 19:30 前入座（未查證）', ko: '신동아시장', budget: 400000, type: 'food', ...loc('자갈치 신동아시장') },
@@ -133,7 +133,7 @@ export const trip = {
     { name: 'Hotel BELLUS 西面', lat: 35.1575, lng: 129.0600, icon: 'hotel', ...hotelLoc },
     { name: '포항돼지국밥 西面店（湯飯）', lat: 35.1560, lng: 129.0586, icon: 'food', ...loc('포항돼지국밥 서면점 서면로68번길 27') },
     { name: '新世界 Spa Land（Centum City）', lat: 35.1693, lng: 129.1297, icon: 'shopping', ...loc('신세계 센텀시티 스파랜드') },
-    { name: 'COSTCO 金海店', lat: 35.2356, lng: 128.8387, icon: 'shopping', ...COSTCO },
+    { name: 'COSTCO 釜山店', lat: 35.1786, lng: 129.1155, icon: 'shopping', ...COSTCO },
     { name: '札嘎其・新東亞市場', lat: 35.0966, lng: 129.0295, icon: 'food', ...loc('자갈치시장', '자갈치 신동아시장') },
     { name: '南浦洞 BIFF 廣場', lat: 35.0988, lng: 129.0276, icon: 'food', ...loc('BIFF광장 씨앗호떡', 'BIFF광장') },
     { name: 'Working Holiday 廣安里', lat: 35.1534, lng: 129.1189, icon: 'food', ...loc('워킹홀리데이 광안해변로 235') },
@@ -208,7 +208,7 @@ export const contingency = {
       desc: '去程 02:50 起飛、回程 22:00 起飛。',
       tips: [
         '去程延誤 2 小時內：照原行程，湯飯後直接去 Spa Land',
-        '去程延誤 4 小時以上：Day 1 只保留湯飯與帝王蟹，好市多改到 Day 3 去機場前（搭車去金海店再到機場）',
+        '去程延誤 4 小時以上：Day 1 只保留湯飯與帝王蟹，好市多改到 Day 3 去機場前（搭車去釜山店再到機場）',
         '回程至少 19:30 前抵達機場，退稅與託運都需要時間',
         '保留所有消費單據，申請旅遊不便險',
       ],

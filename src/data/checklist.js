@@ -31,7 +31,7 @@ export const checklist = [
       { id: 'buspass', text: 'Visit Busan Pass BIG5：6 人各一張，確認憑證與護照', note: '已購。排定景點：Spa Land、X the SKY（紫色）、海邊列車、Arte Museum、松島纜車（藍色）。實體卡可在金海機場 Wi-Fi Dosirak（06:00–10:00，未查證）換，多數景點要先憑 Pass 在櫃台換票。細節見出發功課' },
       { id: 'costco', text: '好市多會員卡（確認有效、未過期）', note: '入場需出示會員卡與證件' },
       { id: 'costco-pay', text: '好市多付款帶 Visa 卡，並備韓元現金', note: '韓國店只收特定卡，Mastercard 說法不一；你的訂房用 Visa，可以帶它' },
-      { id: 'costco-day', text: '10/31（週六）好市多金海店 10:00 開門', note: '我只確認到週一 10:00–22:00，週六請在 Google 地圖再看一次。10/31 不是週日，不受公休影響' },
+      { id: 'costco-day', text: '10/31（週六）好市多釜山店 10:00 開門', note: '網路資料營業 10:00–22:00，官網未查證，出發前在 Google 地圖再看一次。10/31 不是週日，不受公休影響' },
     ],
   },
   {
