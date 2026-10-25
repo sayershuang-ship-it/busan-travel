@@ -145,7 +145,8 @@ const tripJson = JSON.stringify(trip);
         const startHM = parseTime(act.time);
         if (!startHM) return;
 
-        const nextAct = day.activities[i + 1];
+        // 分組時段：結束時間取同組或全員的下一站，不被另一組的行程切斷
+        const nextAct = day.activities.slice(i + 1).find(n => !act.group || !n.group || n.group === act.group);
         const endHM = nextAct ? parseTime(nextAct.time) : null;
         const endTime = endHM || addMinutes(startHM, 60);
 

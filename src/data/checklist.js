@@ -29,6 +29,7 @@ export const checklist = [
       { id: 'apps', text: '安裝 Naver Map、KakaoMap、Papago，叫車用 Kakao T', note: 'Google 地圖在韓國步行與公車導航較不準。另可裝韓巢地鐵（轉乘）、Catch Table（熱門餐廳先抽號）' },
       { id: 'tmoney', text: '準備交通卡（T-money 或可感應的信用卡）', note: '機場輕軌與地鐵都用得到' },
       { id: 'buspass', text: 'Visit Busan Pass BIG5：6 人各一張，確認憑證與護照', note: '已購。排定景點：Spa Land、X the SKY（紫色）、海邊列車、Arte Museum、松島纜車（藍色）。實體卡可在金海機場 Wi-Fi Dosirak（06:00–10:00，未查證）換，多數景點要先憑 Pass 在櫃台換票。細節見出發功課' },
+      { id: 'boom', text: '醫美組：確認 더붐의원 11/2（一）15:00 音波／電波預約', note: '電話 051-914-7575。問清楚價格與發數、15:00 是否含敷麻藥、有沒有中文或英文翻譯。週日休診，臨時改期只能改 10/31（六），週六 14:00 停止受理' },
       { id: 'costco', text: '好市多會員卡（確認有效、未過期）', note: '入場需出示會員卡與證件' },
       { id: 'costco-pay', text: '好市多付款帶 Visa 卡，並備韓元現金', note: '韓國店只收特定卡，Mastercard 說法不一；你的訂房用 Visa，可以帶它' },
       { id: 'costco-day', text: '10/31（週六）好市多釜山店 10:00 開門', note: '網路資料營業 10:00–22:00，官網未查證，出發前在 Google 地圖再看一次。10/31 不是週日，不受公休影響' },
