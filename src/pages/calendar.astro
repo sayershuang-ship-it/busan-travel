@@ -142,8 +142,14 @@ const tripJson = JSON.stringify(trip);
       const ymd = date.toISOString().slice(0, 10).replace(/-/g, '');
 
       day.activities.forEach((act, i) => {
-        const startHM = parseTime(act.time);
+        let startHM = parseTime(act.time);
         if (!startHM) return;
+        // 有 utcOffset 的活動（桃園起飛是台灣時間 +08:00）換成首爾時間，否則會早一小時
+        if (act.utcOffset) {
+          const [sign, oh, om] = /^([+-])(\d{2}):(\d{2})$/.exec(act.utcOffset).slice(1);
+          const offsetMin = (sign === '-' ? -1 : 1) * (Number(oh) * 60 + Number(om));
+          startHM = addMinutes(startHM, 9 * 60 - offsetMin);
+        }
 
         // 分組時段：結束時間取同組或全員的下一站，不被另一組的行程切斷
         const nextAct = day.activities.slice(i + 1).find(n => !act.group || !n.group || n.group === act.group);

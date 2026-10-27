@@ -23,6 +23,10 @@ export const checklist = [
     id: 'booking',
     title: '出發前一週',
     items: [
+      { id: 'kakao-t', text: '在台灣先完成 Kakao T 號碼驗證與卡片註冊', note: '卡片姓名要和帳號本人相同；到了韓國才驗證可能收不到簡訊。備案 App：k.ride（不需韓國本人認證）' },
+      { id: 'linepay-consent', text: 'LINE Pay：先同意行銷資訊提供政策，再付款', note: 'LINE Pay → 設定 → 服務條款 → 行銷資訊提供政策 → 勾選同意；回饋活動內容與上限出發前到官方活動頁確認，見攻略頁' },
+      { id: 'customs-tw', text: '回台灣前：帝王蟹不帶、咖啡糖 6 公斤、免稅額 NT$35,000', note: '回國前用 ai-customs.tw 上傳商品照片查（僅供參考，不要傳截圖），不確定走紅線櫃台' },
+      { id: 'night-show-decide', text: '決定 10/31 晚上要不要看廣安里無人機秀', note: '19:00／21:00 兩場，和帝王蟹、BIFF 衝突，兩種排法見應變頁；雨或強風會取消' },
       { id: 'checkin', text: '濟州航空網路報到、選位、確認託運額度', note: '去程 15kg；回程 15kg＋5kg' },
       { id: 'money', text: '換韓元現金、帶可海外刷卡的信用卡', note: '帝王蟹與市場攤位常需現金' },
       { id: 'esim', text: '買 eSIM 或漫遊方案', note: '韓國地圖與叫車都要網路。落地後要手動開「數據漫遊」，詳見出發功課' },
