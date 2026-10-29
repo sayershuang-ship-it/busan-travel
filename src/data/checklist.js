@@ -26,7 +26,6 @@ export const checklist = [
       { id: 'kakao-t', text: '在台灣先完成 Kakao T 號碼驗證與卡片註冊', note: '卡片姓名要和帳號本人相同；到了韓國才驗證可能收不到簡訊。備案 App：k.ride（不需韓國本人認證）' },
       { id: 'linepay-consent', text: 'LINE Pay：先同意行銷資訊提供政策，再付款', note: 'LINE Pay → 設定 → 服務條款 → 行銷資訊提供政策 → 勾選同意；回饋活動內容與上限出發前到官方活動頁確認，見攻略頁' },
       { id: 'customs-tw', text: '回台灣前：帝王蟹不帶、咖啡糖 6 公斤、免稅額 NT$35,000', note: '回國前用 ai-customs.tw 上傳商品照片查（僅供參考，不要傳截圖），不確定走紅線櫃台' },
-      { id: 'dr-evers-call', text: '醫美：決定音波排哪天，要的話今晚加 Dr.Evers 的 Kakao 好友並打電話', note: '10/31 體驗價要先加 KakaoTalk 好友 @닥터에버스_부산서면，10/31 截止；電話 051-710-7508 問 11/1 開不開、體驗價還在不在、週六最晚做到幾點。現行是 11/2 15:00 더붐의원（051-914-7575），選項見攻略頁與應變頁' },
       { id: 'night-show-decide', text: '10/31 當天看無人機秀有沒有取消', note: '已排 21:00 場，BIFF 取消；雨或強風會取消，出發前看 gwangallimdrone.co.kr/notice 或打 051-610-6518，取消就走應變頁的原方案' },
       { id: 'checkin', text: '濟州航空網路報到、選位、確認託運額度', note: '去程 15kg；回程 15kg＋5kg' },
       { id: 'money', text: '換韓元現金、帶可海外刷卡的信用卡', note: '帝王蟹與市場攤位常需現金' },
